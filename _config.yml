@@ -41,7 +41,7 @@ highlight:
   tab_replace:
 
 # Category & Tag
-default_category: uncategorized
+default_category: sunny
 category_map:
 tag_map:
 
@@ -79,7 +79,7 @@ disqus_shortname: sunyuan1713
 # Extensions
 ## Plugins: https://github.com/tommy351/hexo/wiki/Plugins
 ## Themes: https://github.com/tommy351/hexo/wiki/Themes
-theme: light
+theme: light-sunnyxx
 exclude_generator:
 
 # Markdown

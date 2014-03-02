@@ -61,6 +61,9 @@ port: 4000
 logger: false
 logger_format:
 
+plugins:
+  - hexo-generator-sitemap
+
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
 ## You can customize the date format as defined in

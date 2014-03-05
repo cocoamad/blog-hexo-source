@@ -69,131 +69,16 @@
 <pre><code>$ curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 </code></pre><p>会提示：</p>
 <pre><code>=&gt; Close and reopen your terminal to start using NVM
-</code></pre><p>退出Terminal重启后nvm命令才能生效。  使用nvm安装node.js：</p>
-<pre><code>$ nvm install 0.10
-</code></pre><p>下完后安装hexo，这一步时间比较长：</p>
-<pre><code>$ npm install -g hexo
-</code></pre><p>然后找个文件初始化blog：</p>
-<pre><code>$ cd ~/git/blog  
-$ hexo init .
-$ ls
-</code></pre><p>生成出的目录结构：</p>
-<pre><code>.
-├── _config.yml
-├── package.json
-├── scaffolds
-├── scripts
-├── source
-|   ├── _drafts
-|   └── _posts
-└── themes
-</code></pre><p>新建一篇文章：</p>
-<pre><code>$ hexo new mac下使用hexo搭建blog
-</code></pre><p>$ open source/_posts/mac下使用hexo搭建blog.md 
-编辑md后生成html：</p>
-<pre><code>$ hexo generate
-</code></pre><p>本地预览：</p>
-<pre><code>$ hexo server
-=&gt; [info] Hexo is running at localhost:4000/. Press Ctrl+C to stop.
-</code></pre><p>Theme，去官方提供的<a href="https://github.com/tommy351/hexo/wiki/Themes" target="_blank">主题列表</a>中选个现成的，按照里面的方法pull下来，如light主题</p>
-<pre><code>$ git clone git://github.com/tommy351/hexo-theme-light.git themes/light
-</code></pre><p>_config.yml配置文件中设置：</p>
-<pre><code>theme: light
-</code></pre><p>重新generate和server预览，就看到变化了。</p>
-<h2 id="deploy">deploy</h2>
-<p>github上建个respository，设置里设一下
-在<code>_config.yml</code>中：</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="label">deploy:</span>
-<span class="label">type:</span> github
-<span class="label">repository:</span> https://github<span class="preprocessor">.com</span>/sunnyxx/blog-hexo<span class="preprocessor">.git</span>
-</pre></td></tr></table></figure>
-
-<p>然后执行：</p>
-<pre><code>$ hexo deploy
-</code></pre><p>就行了，github会多一个branch，比octopress简单</p>
-<h2 id="-">绑定域名</h2>
-<p>去万网买了这个域名<code>sunnyxx.com</code>，以<code>blog.sunnyxx.com</code>作为博客的域名，
-看万网是阿里的才从那儿买的，后来发现<code>DNSPod</code>貌似比较好，万网的后台做的那叫一个*，但愿解析速度上别再不行就行。
-托管在github上，首先建一个CNAME文件，里面写<code>最终指向</code>的域名：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ blog.sunnyxx.com &gt; public/CNAME
-</pre></td></tr></table></figure>
-
-<p>然后去域名后台配置下，由于github表示说我托管的页面的域名是：<code>sunnyxx.github.io</code>
-所以建一个CNAME记录，将<code>blog.sunnyxx.com</code>解析到<code>sunnyxx.github.io</code>
-DNS域名解析最常用的是<strong>A记录</strong>和<strong>CNAME记录</strong>，A记录把域名解析到服务器IP，CNAME相当于把一个域名指向另一个域名，因此我这个用的是CNAME，要是托管的服务器也是自己搭的那就用A记录了。
-完事之后得等一段时间（DNSPod说几秒内就同步完，要是这样真心是它好）
-使用下面的命令测一下域名的解析</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre>$ dig blog.sunnyxx.com +nostats +nocomments +nocmd
-
-=&gt; output:
-;; global options: +cmd
-;blog.sunnyxx.com.      IN  A
-blog.sunnyxx.com.   <span class="number">1778</span>    IN  CNAME   sunnyxx.github.io.
-sunnyxx.github.io.  <span class="number">1778</span>    IN  CNAME   github.map.fastly.net.
-github.map.fastly.net.  <span class="number">30</span>  IN  A   <span class="number">103.245</span>.<span class="number">222.133</span>
-</pre></td></tr></table></figure>
-
-<p>这说明是成功了，发现解析过程是<code>blog.sunnyxx.com</code>-&gt;<code>sunnyxx.github.io</code>-&gt;<code>github.map.fastly.net</code>-&gt;<code>103.245.222.133</code> 最终指向了github的web server
-由于国内GreatWall，解析速度明显不稳定，有时候都连不上，以后再看怎么办吧</p>
-<h2 id="-sitemap">添加sitemap</h2>
-<p>同样的，我们使用hexo提供的插件，方法与添加RSS类似。
-安装sitemap到本地：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>npm install hexo<span class="attribute">-generator</span><span class="attribute">-sitemap</span>
-</pre></td></tr></table></figure>
-
-<p>开启sitemap功能：编辑hexo/_config.yml，添加如下代码：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>plugins:
-<span class="subst">-</span> hexo<span class="attribute">-generator</span><span class="attribute">-sitemap</span>
-</pre></td></tr></table></figure>
-
-<p>访问zipperary/sitemap.xml即可看到站点地图。不过，sitemap的初衷是给搜索引擎看的，为了提高搜索引擎对自己站点的收录效果，我们最好手动到google和百度等搜索引擎提交sitemap.xml。</p>
-<h2 id="-">文章中插入图片</h2>
-<p>原来用octopress写的时候在目录下面建个<code>images</code>目录来保存图片，引用时使用了相对路径就行了，但这是让我最蛋疼的事，想发个图片还得命个名，然后<code>mv</code>过去，再引进来，特别墨迹。hexo中当然也可以用这种方法，但是发现使用个<code>图床</code>来搞定图片真是一劳永逸了。</p>
-<p><strong>微博图床</strong>，地址<a href="http://weibotuchuang.sinaapp.com/，我是chrome用户，所以下了个他的插件，装完了点开发现直接把图片拖进去就行了：" target="_blank">http://weibotuchuang.sinaapp.com/，我是chrome用户，所以下了个他的插件，装完了点开发现直接把图片拖进去就行了：</a>
-<img src="http://ww2.sinaimg.cn/large/51530583gw1ee18d6ak6yj208c08ydg6.jpg" alt="enter image description here">
-生成的地址直接用就行了
-有时候需要使用QQ截屏，只要随便截到某个人的聊天窗口里面，不用发送，然后直接拖拽到这个小窗口里面就OK了。</p>
-<blockquote>
-<p>Life saver.</p>
-</blockquote>
-<p>PS：gif也没问题
-<img src="http://ww2.sinaimg.cn/large/51530583gw1ee17y3p11zg207804lnhh.gif" alt="1231231"></p>
-<h2 id="stackedit-markdown-">StackEdit - 超赞的Markdown在线编辑器</h2>
-<p><img src="http://ww2.sinaimg.cn/large/51530583gw1ee1a7efwa0j20hk03kwen.jpg" width="500px" /></p>
-<p>界面干净，所见即所得，支持同步到<code>Dropbox</code>和<code>github</code>，这个特别好，比如在公司写了点东西就可以一键同步，保留犯罪现场，回来之后继续写剩下的。</p>
-<h2 id="-">遇到的问题</h2>
-<p>第二次用的时候发现安装的hexo命令找不到了，重新use一下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="variable">$ </span>nvm use <span class="number">0</span>.<span class="number">10</span>
-</pre></td></tr></table></figure>
-
-<p><strong>使用StackEdit时改变图片大小</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"http://ww2.sinaimg.cn/large/51530583gw1ee1a7efwa0j20hk03kwen.jpg"</span> <span class="attribute">width</span>=<span class="value">"200px align="</span><span class="value">center"</span> /&gt;</span>
-</pre></td></tr></table></figure>
-
-<p>效果：
-  <img src="http://ww2.sinaimg.cn/large/51530583gw1ee1a7efwa0j20hk03kwen.jpg" width="200px" /></p>
+</code></pre><p>退出Terminal重启后nvm命令才能生效。  使用nvm安装node.js：
 
       
     </div>
     <footer>
       
+        
+          <div class="alignleft">
+            <a href="/2014/02/27/mac下使用hexo搭建blog/#more" class="more-link">Read More</a>
+          </div>
         
         
       
@@ -202,26 +87,6 @@ github.map.fastly.net.  <span class="number">30</span>  IN  A   <span class="num
   </div>
 </article>
 
-
-<section id="comment">
-  <h1 class="title">留言</h1>
-
-<!-- Duoshuo Comment BEGIN -->
-  <div class="ds-thread"></div>
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"sunnyxx"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- Duoshuo Comment END -->
-
-</section>
 
 
   

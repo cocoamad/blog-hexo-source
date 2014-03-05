@@ -11,7 +11,7 @@ tags: hexo
 
     => Close and reopen your terminal to start using NVM
 退出Terminal重启后nvm命令才能生效。  使用nvm安装node.js：
-
+<!--more--> 
     $ nvm install 0.10
 下完后安装hexo，这一步时间比较长：
 

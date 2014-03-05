@@ -18,7 +18,7 @@ struct _category_t {
 	const struct _prop_list_t *properties; // 6
 };
 ```
-
+<!--more--> 
  1. `name`注意，并不是category小括号里写的名字，而是类的名字
  2. `cls`要扩展的类对象，编译期间这个值是不会有的，在app被runtime加载时才会根据`name`对应到类对象
  3. `instance_methods`这个category所有的`-`方法

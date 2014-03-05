@@ -85,225 +85,15 @@
 };
 </pre></td></tr></table></figure>
 
-<ol>
-<li><code>name</code>注意，并不是category小括号里写的名字，而是类的名字</li>
-<li><code>cls</code>要扩展的类对象，编译期间这个值是不会有的，在app被runtime加载时才会根据<code>name</code>对应到类对象</li>
-<li><code>instance_methods</code>这个category所有的<code>-</code>方法</li>
-<li><code>class_methods</code>这个category所有的<code>+</code>方法</li>
-<li><code>protocols</code>这个category实现的protocol，比较不常用在category里面实现协议，但是确实支持的</li>
-<li><code>properties</code>这个category所有的property，这也是category里面可以定义属性的原因，不过这个property不会<code>@synthesize</code>实例变量，一般有需求添加实例变量属性时会采用<code>objc_setAssociatedObject</code>和<code>objc_getAssociatedObject</code>方法绑定方法绑定，不过这种方法生成的与一个普通的实例变量完全是两码事。</li>
-</ol>
-<h3 id="-category-">编译器，你对category干了什么？</h3>
-<p>举个栗子看，定义下面一个类和它的category，实现忽略，保存为<code>sark.h</code>和<code>sark.m</code></p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre><span class="class"><span class="keyword">@interface</span> <span class="title">Sark</span> : <span class="title">NSObject</span></span>
-- (<span class="keyword">void</span>)speak;
-<span class="keyword">@end</span>
-
-<span class="class"><span class="keyword">@interface</span> <span class="title">Sark</span> (<span class="title">GayExtention</span>)</span>
-- (<span class="keyword">void</span>)burst;
-<span class="keyword">@end</span>
-</pre></td></tr></table></figure>
-
-<p>请出clang的重写命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ clang -rewrite-objc sark.m
-</pre></td></tr></table></figure>
-
-<p>同级目录下会生成<code>sark.cpp</code>，这就是<code>objc</code>代码重写成<code>c++</code>(基本就是c)的实现。
-打开生成的文件，发现茫茫多，排除include进来的header，自己的代码都在文件尾部了，看看上面的category被编译器搞成什么样子了：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-</pre></td><td class="code"><pre><span class="keyword">static</span> <span class="keyword">struct</span> _category_t _OBJC_$_CATEGORY_Sark_$_GayExtention __attribute__ ((used, section (<span class="string">"__DATA,__objc_const"</span>))) = 
-{
-	<span class="string">"Sark"</span>,
-	<span class="number">0</span>, <span class="comment">// &OBJC_CLASS_$_Sark,</span>
-	(<span class="keyword">const</span> <span class="keyword">struct</span> _method_list_t *)&_OBJC_$_CATEGORY_INSTANCE_METHODS_Sark_$_GayExtention,
-	<span class="number">0</span>,
-	<span class="number">0</span>,
-	<span class="number">0</span>,
-};
-</pre></td></tr></table></figure>
-
-<p>先注意这个category的名字<code>_OBJC_$_CATEGORY_Sark_$_GayExtention</code>，这是一个按规则生成的符号了，中间的<code>Sark</code>是类名，后面的<code>GayExtention</code>是类别的名字，这也就是为什么<strong>同一个类的category名不能冲突</strong>了  </p>
-<p>对应看上面<code>_category_t</code>的定义，因为category里面只添加了一个<code>- burst</code>方法，所以只有实例方法那一项被填充了值<code>_OBJC_$_CATEGORY_INSTANCE_METHODS_Sark_$_GayExtention</code></p>
-<p>其中<code>_I_Sark_GayExtention_burst</code>符号就代表了category里面的<code>- burst</code>方法，同样遵循了一定的命名规范，里面的<code>I</code>表示实例方法</p>
-<p>最后，这个类的category们生成了一个数组，存在了<code>__DATA</code>段下的<code>__objc_catlist</code>section里</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="keyword">static</span> <span class="keyword">struct</span> _category_t *L_OBJC_LABEL_CATEGORY_$ [<span class="number">1</span>] __attribute__((used, section (<span class="string">"__DATA, __objc_catlist,regular,no_dead_strip"</span>)))= {
-	&_OBJC_$_CATEGORY_Sark_$_GayExtention,
-};
-</pre></td></tr></table></figure>
-
-<p>至此编译器的任务完成了。</p>
-<h3 id="runtime-category-">runtime，我的category哪儿去了？</h3>
-<p>我们知道，category动态扩展了原来类的方法，在调用者看来好像原来类本来就有这些方法似的，有两个事实：</p>
-<ol>
-<li>不论有没有import category 的<code>.h</code>，都可以成功调用category的方法，都影响不到category的加载流程，import只是帮助了编译检查和链接过程</li>
-<li>runtime加载完成后，category的<strong>原始信息</strong>在<strong>类结构里</strong>将不会存在</li>
-</ol>
-<p>这需要探究下<strong>runtime对category的加载过程</strong>，这里就简单说一下</p>
-<ol>
-<li>objc runtime的加载入口是一个叫<code>_objc_init</code>的方法，在library加载前由libSystem dyld调用，进行初始化操作</li>
-<li>调用<code>map_images</code>方法将文件中的<code>image</code>map到内存</li>
-<li>调用<code>_read_images</code>方法初始化map后的<code>image</code>，这里面干了很多的事情，像load所有的类、协议和<strong>category</strong>，著名的<code>+ load</code>方法就是这一步调用的</li>
-<li>仔细看category的初始化，循环调用了<code>_getObjc2CategoryList</code>方法，这个方法拿出来看看：</li>
-<li>... </li>
-</ol>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-</pre></td><td class="code"><pre><span class="preprocessor">#define GETSECT(name, type, sectname)                                   \</span>
-    <span class="typedef"><span class="keyword">type</span> *name<span class="container">(<span class="title">const</span> <span class="title">header_info</span> *<span class="title">hi</span>, <span class="title">size_t</span> *<span class="title">outCount</span>)</span>  \</span>
-    {                                                                   \
-        unsigned long byteCount = <span class="number">0</span>;                                    \
-        <span class="typedef"><span class="keyword">type</span> *<span class="keyword">data</span> = <span class="container">(<span class="title">type</span> *)</span>                                           \</span>
-            getsectiondata(hi-&gt;mhdr, <span class="type">SEG_DATA</span>, sectname, &byteCount);   \
-        *outCount = byteCount / sizeof(<span class="typedef"><span class="keyword">type</span>);                           \</span>
-        return <span class="typedef"><span class="keyword">data</span>;                                                    \</span>
-    }
-    
-// ... //
-
-<span class="type">GETSECT</span>(_getObjc2CategoryList, category_t *, <span class="string">"__objc_catlist"</span>);
-</pre></td></tr></table></figure>
-
-<p>眼熟的<code>__objc_catlist</code>，就是上面category存放的数据段了，可以串连起来了</p>
-<p>在调用完<code>_getObjc2CategoryList</code>后，runtime终于开始了<strong>category的处理</strong>，简化的代码如下</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-</pre></td><td class="code"><pre><span class="comment">// Process this category. </span>
-<span class="comment">// First, register the category with its target class. </span>
-<span class="comment">// Then, rebuild the class's method lists (etc) if </span>
-<span class="comment">// the class is realized. </span>
-BOOL classExists <span class="subst">=</span> NO;
-<span class="keyword">if</span> (cat<span class="subst">-&gt;</span>instanceMethods <span class="subst">||</span>  cat<span class="subst">-&gt;</span>protocols  <span class="subst">||</span>  cat<span class="subst">-&gt;</span>instanceProperties) 
-{
-    addUnattachedCategoryForClass(cat, cls, hi);
-    <span class="keyword">if</span> (isRealized(cls)) {
-        remethodizeClass(cls);
-        classExists <span class="subst">=</span> YES;
-    }
-}
-
-<span class="keyword">if</span> (cat<span class="subst">-&gt;</span>classMethods  <span class="subst">||</span>  cat<span class="subst">-&gt;</span>protocols ) 
-{
-    addUnattachedCategoryForClass(cat, cls<span class="subst">-&gt;</span>isa, hi);
-    <span class="keyword">if</span> (isRealized(cls<span class="subst">-&gt;</span>isa)) {
-        remethodizeClass(cls<span class="subst">-&gt;</span>isa);
-    }
-}
-</pre></td></tr></table></figure>
-
-<p>首先分成两拨，一拨是实例对象相关的调用<code>addUnattachedCategoryForClass</code>，一拨是类对象相关的调用<code>addUnattachedCategoryForClass</code>，然后会调到<code>attachCategoryMethods</code>方法，这个方法把一个类所有的category_list的所有方法取出来组成一个<code>method_list_t **</code>，注意，这里是<code>倒序</code>添加的，也就是说，新生成的category的方法会先于旧的category的方法插入</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-</pre></td><td class="code"><pre><span class="keyword">static</span> <span class="keyword">void</span> 
-attachCategoryMethods(class_t *cls, category_list *cats, 
-                      <span class="built_in">BOOL</span> *inoutVtablesAffected)
-{
-    <span class="keyword">if</span> (!cats) <span class="keyword">return</span>;
-    <span class="keyword">if</span> (PrintReplacedMethods) printReplacements(cls, cats);
-
-    <span class="built_in">BOOL</span> isMeta = isMetaClass(cls);
-    method_list_t **mlists = (method_list_t **)
-        _malloc_internal(cats-&gt;count * <span class="keyword">sizeof</span>(*mlists));
-
-    <span class="comment">// Count backwards through cats to get newest categories first</span>
-    <span class="keyword">int</span> mcount = <span class="number">0</span>;
-    <span class="keyword">int</span> i = cats-&gt;count;
-    <span class="built_in">BOOL</span> fromBundle = <span class="literal">NO</span>;
-    <span class="keyword">while</span> (i--) {
-        method_list_t *mlist = cat_method_list(cats-&gt;list[i]<span class="variable">.cat</span>, isMeta);
-        <span class="keyword">if</span> (mlist) {
-            mlists[mcount++] = mlist;
-            fromBundle |= cats-&gt;list[i]<span class="variable">.fromBundle</span>;
-        }
-    }
-
-    attachMethodLists(cls, mlists, mcount, <span class="literal">NO</span>, fromBundle, inoutVtablesAffected);
-
-    _free_internal(mlists);
-
-}
-</pre></td></tr></table></figure>
-
-<p>生成了所有method的list之后，调用<code>attachMethodLists</code>将所有方法<code>前序</code>添加进类的方法的数组中，也就是说，如果原来类的方法是a,b,c，类别的方法是1,2,3，那么插入之后的方法将会是1,2,3,a,b,c，也就是说，原来类的方法被category的方法<code>覆盖</code>了，但被覆盖的方法确实还在那里。</p>
-
+<p>
       
     </div>
     <footer>
       
+        
+          <div class="alignleft">
+            <a href="/2014/03/05/objc_category_secret/#more" class="more-link">Read More</a>
+          </div>
         
         
       
@@ -312,26 +102,6 @@ attachCategoryMethods(class_t *cls, category_list *cats,
   </div>
 </article>
 
-
-<section id="comment">
-  <h1 class="title">留言</h1>
-
-<!-- Duoshuo Comment BEGIN -->
-  <div class="ds-thread"></div>
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"sunnyxx"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- Duoshuo Comment END -->
-
-</section>
 
 
   
@@ -356,131 +126,16 @@ var duoshuoQuery = {short_name:"sunnyxx"};
 <pre><code>$ curl https://raw.github.com/creationix/nvm/master/install.sh | sh
 </code></pre><p>会提示：</p>
 <pre><code>=&gt; Close and reopen your terminal to start using NVM
-</code></pre><p>退出Terminal重启后nvm命令才能生效。  使用nvm安装node.js：</p>
-<pre><code>$ nvm install 0.10
-</code></pre><p>下完后安装hexo，这一步时间比较长：</p>
-<pre><code>$ npm install -g hexo
-</code></pre><p>然后找个文件初始化blog：</p>
-<pre><code>$ cd ~/git/blog  
-$ hexo init .
-$ ls
-</code></pre><p>生成出的目录结构：</p>
-<pre><code>.
-├── _config.yml
-├── package.json
-├── scaffolds
-├── scripts
-├── source
-|   ├── _drafts
-|   └── _posts
-└── themes
-</code></pre><p>新建一篇文章：</p>
-<pre><code>$ hexo new mac下使用hexo搭建blog
-</code></pre><p>$ open source/_posts/mac下使用hexo搭建blog.md 
-编辑md后生成html：</p>
-<pre><code>$ hexo generate
-</code></pre><p>本地预览：</p>
-<pre><code>$ hexo server
-=&gt; [info] Hexo is running at localhost:4000/. Press Ctrl+C to stop.
-</code></pre><p>Theme，去官方提供的<a href="https://github.com/tommy351/hexo/wiki/Themes" target="_blank">主题列表</a>中选个现成的，按照里面的方法pull下来，如light主题</p>
-<pre><code>$ git clone git://github.com/tommy351/hexo-theme-light.git themes/light
-</code></pre><p>_config.yml配置文件中设置：</p>
-<pre><code>theme: light
-</code></pre><p>重新generate和server预览，就看到变化了。</p>
-<h2 id="deploy">deploy</h2>
-<p>github上建个respository，设置里设一下
-在<code>_config.yml</code>中：</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="label">deploy:</span>
-<span class="label">type:</span> github
-<span class="label">repository:</span> https://github<span class="preprocessor">.com</span>/sunnyxx/blog-hexo<span class="preprocessor">.git</span>
-</pre></td></tr></table></figure>
-
-<p>然后执行：</p>
-<pre><code>$ hexo deploy
-</code></pre><p>就行了，github会多一个branch，比octopress简单</p>
-<h2 id="-">绑定域名</h2>
-<p>去万网买了这个域名<code>sunnyxx.com</code>，以<code>blog.sunnyxx.com</code>作为博客的域名，
-看万网是阿里的才从那儿买的，后来发现<code>DNSPod</code>貌似比较好，万网的后台做的那叫一个*，但愿解析速度上别再不行就行。
-托管在github上，首先建一个CNAME文件，里面写<code>最终指向</code>的域名：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>$ blog.sunnyxx.com &gt; public/CNAME
-</pre></td></tr></table></figure>
-
-<p>然后去域名后台配置下，由于github表示说我托管的页面的域名是：<code>sunnyxx.github.io</code>
-所以建一个CNAME记录，将<code>blog.sunnyxx.com</code>解析到<code>sunnyxx.github.io</code>
-DNS域名解析最常用的是<strong>A记录</strong>和<strong>CNAME记录</strong>，A记录把域名解析到服务器IP，CNAME相当于把一个域名指向另一个域名，因此我这个用的是CNAME，要是托管的服务器也是自己搭的那就用A记录了。
-完事之后得等一段时间（DNSPod说几秒内就同步完，要是这样真心是它好）
-使用下面的命令测一下域名的解析</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre>$ dig blog.sunnyxx.com +nostats +nocomments +nocmd
-
-=&gt; output:
-;; global options: +cmd
-;blog.sunnyxx.com.      IN  A
-blog.sunnyxx.com.   <span class="number">1778</span>    IN  CNAME   sunnyxx.github.io.
-sunnyxx.github.io.  <span class="number">1778</span>    IN  CNAME   github.map.fastly.net.
-github.map.fastly.net.  <span class="number">30</span>  IN  A   <span class="number">103.245</span>.<span class="number">222.133</span>
-</pre></td></tr></table></figure>
-
-<p>这说明是成功了，发现解析过程是<code>blog.sunnyxx.com</code>-&gt;<code>sunnyxx.github.io</code>-&gt;<code>github.map.fastly.net</code>-&gt;<code>103.245.222.133</code> 最终指向了github的web server
-由于国内GreatWall，解析速度明显不稳定，有时候都连不上，以后再看怎么办吧</p>
-<h2 id="-sitemap">添加sitemap</h2>
-<p>同样的，我们使用hexo提供的插件，方法与添加RSS类似。
-安装sitemap到本地：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>npm install hexo<span class="attribute">-generator</span><span class="attribute">-sitemap</span>
-</pre></td></tr></table></figure>
-
-<p>开启sitemap功能：编辑hexo/_config.yml，添加如下代码：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>plugins:
-<span class="subst">-</span> hexo<span class="attribute">-generator</span><span class="attribute">-sitemap</span>
-</pre></td></tr></table></figure>
-
-<p>访问zipperary/sitemap.xml即可看到站点地图。不过，sitemap的初衷是给搜索引擎看的，为了提高搜索引擎对自己站点的收录效果，我们最好手动到google和百度等搜索引擎提交sitemap.xml。</p>
-<h2 id="-">文章中插入图片</h2>
-<p>原来用octopress写的时候在目录下面建个<code>images</code>目录来保存图片，引用时使用了相对路径就行了，但这是让我最蛋疼的事，想发个图片还得命个名，然后<code>mv</code>过去，再引进来，特别墨迹。hexo中当然也可以用这种方法，但是发现使用个<code>图床</code>来搞定图片真是一劳永逸了。</p>
-<p><strong>微博图床</strong>，地址<a href="http://weibotuchuang.sinaapp.com/，我是chrome用户，所以下了个他的插件，装完了点开发现直接把图片拖进去就行了：" target="_blank">http://weibotuchuang.sinaapp.com/，我是chrome用户，所以下了个他的插件，装完了点开发现直接把图片拖进去就行了：</a>
-<img src="http://ww2.sinaimg.cn/large/51530583gw1ee18d6ak6yj208c08ydg6.jpg" alt="enter image description here">
-生成的地址直接用就行了
-有时候需要使用QQ截屏，只要随便截到某个人的聊天窗口里面，不用发送，然后直接拖拽到这个小窗口里面就OK了。</p>
-<blockquote>
-<p>Life saver.</p>
-</blockquote>
-<p>PS：gif也没问题
-<img src="http://ww2.sinaimg.cn/large/51530583gw1ee17y3p11zg207804lnhh.gif" alt="1231231"></p>
-<h2 id="stackedit-markdown-">StackEdit - 超赞的Markdown在线编辑器</h2>
-<p><img src="http://ww2.sinaimg.cn/large/51530583gw1ee1a7efwa0j20hk03kwen.jpg" width="500px" /></p>
-<p>界面干净，所见即所得，支持同步到<code>Dropbox</code>和<code>github</code>，这个特别好，比如在公司写了点东西就可以一键同步，保留犯罪现场，回来之后继续写剩下的。</p>
-<h2 id="-">遇到的问题</h2>
-<p>第二次用的时候发现安装的hexo命令找不到了，重新use一下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="variable">$ </span>nvm use <span class="number">0</span>.<span class="number">10</span>
-</pre></td></tr></table></figure>
-
-<p><strong>使用StackEdit时改变图片大小</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"http://ww2.sinaimg.cn/large/51530583gw1ee1a7efwa0j20hk03kwen.jpg"</span> <span class="attribute">width</span>=<span class="value">"200px align="</span><span class="value">center"</span> /&gt;</span>
-</pre></td></tr></table></figure>
-
-<p>效果：
-  <img src="http://ww2.sinaimg.cn/large/51530583gw1ee1a7efwa0j20hk03kwen.jpg" width="200px" /></p>
+</code></pre><p>退出Terminal重启后nvm命令才能生效。  使用nvm安装node.js：
 
       
     </div>
     <footer>
       
+        
+          <div class="alignleft">
+            <a href="/2014/02/27/mac下使用hexo搭建blog/#more" class="more-link">Read More</a>
+          </div>
         
         
       
@@ -489,26 +144,6 @@ github.map.fastly.net.  <span class="number">30</span>  IN  A   <span class="num
   </div>
 </article>
 
-
-<section id="comment">
-  <h1 class="title">留言</h1>
-
-<!-- Duoshuo Comment BEGIN -->
-  <div class="ds-thread"></div>
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"sunnyxx"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = 'http://static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- Duoshuo Comment END -->
-
-</section>
 
 
   

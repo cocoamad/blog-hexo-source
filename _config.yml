@@ -4,7 +4,7 @@
 
 # Site
 title: sunnyxx
-subtitle:
+subtitle: sunnyxx的技术博客
 description: sunnyxx的技术博客
 author: sunnyxx
 email: sunyuan1713@gmail.com
@@ -82,7 +82,7 @@ disqus_shortname: sunyuan1713
 # Extensions
 ## Plugins: https://github.com/tommy351/hexo/wiki/Plugins
 ## Themes: https://github.com/tommy351/hexo/wiki/Themes
-theme: light-sunnyxx
+theme: pacman
 exclude_generator:
 
 # Markdown

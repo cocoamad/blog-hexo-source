@@ -1,0 +1,425 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Reactive Cocoa Tutorial [2] = &quot;百变RACStream&quot;; | sunnyxx</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="sunnyxx">
+    
+    <meta name="description" content="Reactive Cocoa Tutorial 系列，转载请注明该文源地址 -- by sunny
+Overview
+　　在RAC下开发干的最多的事就是建立RACSignal和subscribe RACSignal了，它是RAC的核心所在。本篇介绍了RAC的运作原理和设计思路，从函数式编程形成的RACStream继而介绍它的子类 - RAC最核心的部分RACSignal。
+函数式编程
+　　我们知道Reactive Cocoa是函数式编程(Functional Programing)(FP)思想的实现。FP有一套成熟的理论，这里只讲讲我个人理解吧。
+　　我觉得FP就是“像计算函数表达式一样来解决一个问题”，举个栗子，中学题：">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="sunnyxx" title="sunnyxx"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="sunnyxx">sunnyxx</a></h1>
+				<h2 class="blog-motto">sunnyxx的技术博客</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:blog.sunnyxx.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/03/06/rac_2_racstream/" title="Reactive Cocoa Tutorial [2] = &quot;百变RACStream&quot;;" itemprop="url">Reactive Cocoa Tutorial [2] = &quot;百变RACStream&quot;;</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://blog.sunnyxx.com" title="sunnyxx">sunnyxx</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-03-06T14:34:27.000Z" itemprop="datePublished">Mar 6 2014</time>
+    更新日期:<time datetime="2014-03-06T14:54:27.000Z" itemprop="dateModified">Mar 6 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-"><span class="toc-number">2.</span> <span class="toc-text">函数式编程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#racstream"><span class="toc-number">3.</span> <span class="toc-text">RACStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-"><span class="toc-number">4.</span> <span class="toc-text">然后呢？</span></a></li></ol>
+		</div>
+		
+		<p>Reactive Cocoa Tutorial 系列，转载请注明该文源地址 -- by sunny</p>
+<h2 id="overview">Overview</h2>
+<p>　　在RAC下开发干的最多的事就是建立RACSignal和subscribe RACSignal了，它是RAC的核心所在。本篇介绍了RAC的运作原理和设计思路，从函数式编程形成的RACStream继而介绍它的子类 - RAC最核心的部分RACSignal。</p>
+<h2 id="-">函数式编程</h2>
+<p>　　我们知道Reactive Cocoa是函数式编程(Functional Programing)(FP)思想的实现。FP有一套成熟的理论，这里只讲讲我个人理解吧。</p>
+<p>　　我觉得FP就是“<strong>像计算函数表达式一样来解决一个问题</strong>”，举个栗子，中学题：</p>
+<a id="more"></a>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="attribute">已知：f(x) </span>=<span class="string"> 2sin(x + π/2)， 求 f(π/2)的值。</span>
+</pre></td></tr></table></figure>
+
+<p>　　其中x是这个函数的输入，f(x)为计算的输出结果，求f(π/2)时给定了x自然能计算出个结果来（说实话我真忘了咋算了）</p>
+<p>当然，仔细看这个函数，其实是可以分解成几个小函数的：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="function"><span class="title">f1</span><span class="params">(x)</span> = <span class="title">x</span> + π/2
+<span class="title">f2</span><span class="params">(x)</span> = <span class="title">sin</span><span class="params">(x)</span>
+<span class="title">f3</span><span class="params">(x)</span> = 2<span class="title">x</span></span>
+</pre></td></tr></table></figure>
+
+<p>　　而原来的f(x)可以被小函数组合：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="function"><span class="title">f</span><span class="params">(x)</span> = <span class="title">f3</span><span class="params">(<span class="function_name">f2</span>(<span class="function_name">f1</span>(x)))</span></span>
+</pre></td></tr></table></figure>
+
+<p>　　所以不难得出这么个推论：要是我手上有足够的<strong>基本函数</strong>，我就能用上面的组合的方法组合出任意一个<strong>复杂的函数</strong>了。再想想事实上这些年来学数学的过程不就是在一个个积累基本函数的过程嘛，从基本运算，到三角函数，到乘方开方，再到微积分。基本函数越来越多，能解决的数学问题也越来越复杂。</p>
+<p>　　再来看一个函数是怎么构成的，FP理论里叫<code>monads</code>，十分抽象，没读懂，但能理解出来：一个函数只要有一个对于输入值的运算方法和一个返回值，就够了。也容易理解，给它一个输入，干点事情，给出一个输出，就行了，当然现实情况要复杂得多（比如说输出值本身就是个函数？）有些函数是有输入的条件的，比如原来数学解个函数时候经常跟个作用域或者限制条件，比如<code>f(x) = 10 / x , (x不为0)</code>，要是传个0这个函数就认为计算错误。</p>
+<p>　　对于像上面栗子的函数，每个函数都能接收上一个函数输出的结果，作为自己的输入，这样才能嵌套生成最终结果，同时，计算的顺序也是一定从里向外，所以换个写法可以写成：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="comment">start</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">x</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">f1(x)</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">(temp</span> <span class="comment">value1)</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">f2(temp</span> <span class="comment">value1)</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">(temp</span> <span class="comment">value2)</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">f3(temp</span> <span class="comment">value2)</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt; <span class="comment">result</span>
+</pre></td></tr></table></figure>
+
+<p>　　于是乎<strong>嵌套</strong>就被表示成了<strong>序列</strong>，来个高大上的名字怎么样，就叫<strong>流（Stream）</strong></p>
+<h2 id="racstream">RACStream</h2>
+<p>　　这就是<code>RACStream</code>所表示的含义。</p>
+<p>　　按照上面说的，其实<code>RACStream</code>的名字有点点歧义，对于一个<code>RACStream</code>对象，它在意义上等同于上面的f1(x),f2(x),f3(x)，而不是那一大串整体，表示整体的应该是最外层的和f(x)对应的那个对象，叫个RACStreamComponent比较好？理解时候得注意下。</p>
+<p>　　所以作为一个基本函数的RACStream应该至少应该有：</p>
+<ol>
+<li>怎么传入值</li>
+<li>怎么返回值</li>
+<li>怎么与其他函数组合</li>
+<li>怎么实现函数的作用域(监测输入值来做处理)</li>
+<li>这函数叫啥- -</li>
+</ol>
+<p>得益于在Objc下实现，所以输入输出的“值”都用个<code>id</code>类型就行了，遇到多个值的组合就用<code>RACTurple</code>（可以把多个值压包和解包，类比WINRAR），1和2解决</p>
+<p>RACStream从实例变量来看只有一个<code>name</code>，当然它也只应该有个name - -，5解决</p>
+<p>　　里面重点问题就是上面的3和4了。由于<strong>函数组合之后仍然是个函数</strong>，所以也很容易理解<strong>两个Stream对象的组合其实就是生成一个新的Stream对</strong>象，它返回了分别由两个子Stream先后运算产生的最终结果</p>
+<p> 　　观摩一下RACStream定义的基本方法：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>+ (instancetype)empty;
++ (instancetype)return:(id)value;
+-<span class="ruby"> (instancetype)<span class="symbol">bind:</span>(<span class="constant">RACStreamBindBlock</span> (^)(void))block; <span class="regexp">//</span> <span class="keyword">for</span> <span class="number">4</span>
+</span>-<span class="ruby"> (instancetype)<span class="symbol">concat:</span>(<span class="constant">RACStream</span> *)stream; <span class="regexp">//</span> <span class="keyword">for</span> <span class="number">3</span>
+</span>-<span class="ruby"> (instancetype)<span class="symbol">zipWith:</span>(<span class="constant">RACStream</span> *)stream; <span class="regexp">//</span> <span class="keyword">for</span> <span class="number">3</span></span>
+</pre></td></tr></table></figure>
+
+<p>　　RACStream作为一个描述抽象的父类，这几个基本方法并没有实现，是由具体子类来实现，RACStream的两个子类分别是<code>RACSignal</code>和<code>RACSequence</code></p>
+<p>　　</p>
+<ul>
+<li><code>+empty</code> 是一个不返回值，立刻结束(Completed)的函数，意思是执行它之后除了立刻结束啥都不会发生，可以理解为RAC里面的nil。</li>
+</ul>
+<ul>
+<li><p><code>+return:</code> 是一个直接返回给定值，然后立刻结束的函数，比如 f(x) = 213</p>
+</li>
+<li><p><code>-bind:</code>是一个非常重要的函数，在Rac Doc中被描述为‘<strong>basic primitives, particularly</strong>’，它是RACStream监测“值”和控制“运行状态”的基本方法，个人认为看注释文档不能理解它是干嘛的，而且bind英语“捆绑，绑定，强迫，约束”这几个意思也感觉对不上，我觉得叫“<strong>绑架</strong>”倒是更贴切一点。在-bind：之后，之前的RACStream就处于被“绑架”的状态，被绑架的RACStream每产生一个值，都要经过“绑架者”来决定：</p>
+</li>
+</ul>
+<ol>
+<li><p>是否使这个RACStream结束（被绑架者是否还能继续活着）</p>
+</li>
+<li><p>用什么新的RACStream来替换被绑架的RACStream，传出的结果也成了新RACStream产生的值（绑匪可以选择再抓一个人质放之前那个前面）</p>
+<p>　　举个具体栗子，RACStream的 - take：方法，这个方法使一个RACStream只取前N次的值（有缩减）：</p>
+</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre>- (instancetype)take:(NSUInteger)count {
+    Class class = <span class="keyword">self</span><span class="variable">.class</span>;
+    
+    <span class="keyword">return</span> [[<span class="keyword">self</span> bind:^{ <span class="comment">// self被绑架</span>
+        __block NSUInteger taken = <span class="number">0</span>;
+
+        <span class="keyword">return</span> ^ <span class="keyword">id</span> (<span class="keyword">id</span> value, <span class="built_in">BOOL</span> *stop) { <span class="comment">// 这个block在被绑架的self每输出一个值得时候触发</span>
+            RACStream *result = class<span class="variable">.empty</span>;
+
+            <span class="keyword">if</span> (taken &lt; count) result = [class <span class="keyword">return</span>:value]; <span class="comment">// 未达到N次时将原值原原本本的传递出去</span>
+            <span class="keyword">if</span> (++taken &gt;= count) *stop = <span class="literal">YES</span>; <span class="comment">// 达到第N次值后干掉了被绑架的self</span>
+
+            <span class="keyword">return</span> result; <span class="comment">// 将被绑架的self替换为result</span>
+        };
+    }]];
+}
+</pre></td></tr></table></figure>
+
+<p> 　　<code>-concat:</code> 和 <code>-zipWith:</code> 就是将两个RACStream连接起来的基本方法了：</p>
+<p><code>[A concat:B]</code>中A和B像<code>皇上</code>和<code>太子</code>的关系，A是皇上，B是太子。皇上健在的时候统治天下发号施令（value），太子就候着，不发号施令（value），当皇上挂了（completed），太子登基当皇上，此时发出的号令（value）是太子的。
+<code>[C zipWith:D]</code>可以比喻成一对<code>平等恩爱的夫妻</code>，两个人是“绑在一起“的关系来组成一个家庭，决定一件事（value）时必须两个人都提出意见（当且仅当C和D同时都产生了值的时候，一个value才被输出，CD只有其中一个有值时会挂起等待另一个的值，所以输出都是一对值（RACTuple）），当夫妻只要一个人先挂了（completed）这个家庭（组合起来的RACStream）就宣布解散（也就是无法凑成一对输出时就终止）</p>
+<h2 id="-">然后呢？</h2>
+<p>　　除了上面几个基本方法，RACStream还有不少的Operation方法，这些操作方法的实现大都是组合基本的方法来达到特定的目的，虽然是RACStream这个基类实现的，但我觉得还是放在后面介绍RACSignal的时候作为它的使用方法来说比较合适，毕竟绝大多数编程的对象的都是RACStream的两个子类，后面再展开介绍好了。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Reactive Cocoa Tutorial/">Reactive Cocoa Tutorial</a>
+  </div>
+
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://blog.sunnyxx.com/2014/03/06/rac_2_racstream/" data-title="Reactive Cocoa Tutorial [2] = &quot;百变RACStream&quot;; | sunnyxx" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/03/06/rac_3_racsignal/" title="Reactive Cocoa Tutorial [3] = &quot;RACSignal的巧克力工厂“;">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Reactive Cocoa Tutorial [3] = &quot;RACSignal的巧克力工厂“;</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/03/06/rac_1_macros/"  title="Reactive Cocoa Tutorial [1] = &quot;神奇的Macros&quot;;">
+ <strong>NEXT:</strong><br/> 
+ <span>Reactive Cocoa Tutorial [1] = &quot;神奇的Macros&quot;;
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#overview"><span class="toc-number">1.</span> <span class="toc-text">Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-"><span class="toc-number">2.</span> <span class="toc-text">函数式编程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#racstream"><span class="toc-number">3.</span> <span class="toc-text">RACStream</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-"><span class="toc-number">4.</span> <span class="toc-text">然后呢？</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Reactive Cocoa Tutorial/" title="Reactive Cocoa Tutorial">Reactive Cocoa Tutorial<sup>4</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://blog.sunnyxx.com" target="_blank" title="sunnyxx">sunnyxx</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>

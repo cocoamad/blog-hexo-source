@@ -4,9 +4,7 @@ date: 2014-03-05 17:37:19
 tags:
 ---
 
-Posted by `sunnyxx` in http://blog.sunnyxx.com
-
-###category的真面目
+##category的真面目
 objc所有类和对象都是c结构体，category当然也一样，下面是`runtime`中category的结构：
 ``` objc
 struct _category_t {

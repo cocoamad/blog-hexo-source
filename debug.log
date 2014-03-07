@@ -1,0 +1,48 @@
+date: 2014-03-07 15:53:05.412
+argv: node /Users/yuan.sun/.nvm/v0.10.26/bin/hexo server
+os: Darwin 13.0.0 darwin x64
+version:
+  hexo: 2.4.5
+  http_parser: 1.0
+  node: 0.10.26
+  v8: 3.14.5.9
+  ares: 1.9.0-DEV
+  uv: 0.10.25
+  zlib: 1.2.3
+  modules: 11
+  openssl: 1.0.1e
+---
+
+[debug] 15:49:53.213 Configuration file load successfully
+[debug] 15:49:53.215 Version info checked successfully
+[debug] 15:49:53.266 Loading database.
+[debug] 15:49:53.320 Plugin loaded successfully: hexo-generator-sitemap
+[debug] 15:49:53.336 Script load successfully: fancybox.js
+[debug] 15:49:53.351 Theme layout loaded
+[debug] 15:49:53.361 Theme configuration loaded
+[debug] 15:49:53.364 Processed: CNAME
+[debug] 15:49:53.365 Processed: favicon.ico
+[debug] 15:49:53.392 Theme source loaded
+[debug] 15:49:53.894 Processed: _posts/ios_exam_0.md
+[debug] 15:49:53.895 Processed: _posts/mac下使用hexo搭建blog.md
+[debug] 15:49:53.895 Processed: _posts/objc_category_secret.md
+[debug] 15:49:53.896 Processed: _posts/rac_0_overview.md
+[debug] 15:49:53.896 Processed: _posts/rac_1_macros.md
+[debug] 15:49:53.897 Processed: _posts/rac_2_racstream.md
+[debug] 15:49:53.897 Processed: _posts/rac_3_racsignal.md
+[debug] 15:49:53.905 Cache saved
+[info] 15:49:54.199 Hexo is running at localhost:4000/. Press Ctrl+C to stop.
+[debug] 15:50:02.447 Render index: 
+[delete] 15:53:05.301 Theme: source/css/images/banner.jpg
+[error] 15:53:05.404 ReferenceError: route is not defined
+ReferenceError: route is not defined
+    at _watchSource (/Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/lib/core/theme.js:210:5)
+    at /Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/lib/core/theme.js:260:15
+    at /Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:108:13
+    at Array.forEach (native)
+    at _each (/Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:32:24)
+    at Object.async.each (/Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:107:9)
+    at async.series.generate.watch (/Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/lib/core/theme.js:249:17)
+    at /Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:548:21
+    at /Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:224:13
+    at iterate (/Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:131:13)

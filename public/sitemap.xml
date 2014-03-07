@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.sunnyxx.com/2014/03/07/hexo_customize/</loc>
+    <lastmod>2014-03-07T08:26:34.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.sunnyxx.com/2014/02/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BAblog/</loc>
+    <lastmod>2014-02-27T06:56:47.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.sunnyxx.com/2014/03/06/ios_exam_0/</loc>
     <lastmod>2014-03-06T15:10:58.000Z</lastmod>
   </url>
@@ -9,16 +19,6 @@
   <url>
     <loc>http://blog.sunnyxx.com/2014/03/05/objc_category_secret/</loc>
     <lastmod>2014-03-05T09:37:19.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.sunnyxx.com/2014/03/06/rac_2_racstream/</loc>
-    <lastmod>2014-03-06T14:34:27.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/</loc>
-    <lastmod>2014-03-06T14:45:43.000Z</lastmod>
   </url>
   
   <url>
@@ -32,8 +32,13 @@
   </url>
   
   <url>
-    <loc>http://blog.sunnyxx.com/2014/02/27/mac%E4%B8%8B%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BAblog/</loc>
-    <lastmod>2014-02-27T06:56:47.000Z</lastmod>
+    <loc>http://blog.sunnyxx.com/2014/03/06/rac_2_racstream/</loc>
+    <lastmod>2014-03-06T14:34:27.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/</loc>
+    <lastmod>2014-03-06T14:45:43.000Z</lastmod>
   </url>
   
 </urlset>

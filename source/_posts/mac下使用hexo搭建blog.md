@@ -143,6 +143,17 @@ $ nvm use 0.10
 效果：
   <img src="http://ww2.sinaimg.cn/large/51530583gw1ee1a7efwa0j20hk03kwen.jpg" width="200px" />
 
+##添加友情链接
+
+`themes/xxxxxx/layout/_widget/blogroll.ejs`
+```
+<div class="widget tag">
+<h3 class="title">友情链接</h3>
+<ul class="entry">
+<li><a href="http://zhouxl.github.io" title="小六">小六的博客</a></li>
+</ul>
+</div>
+```
 
   [1]: https://github.com/tommy351/hexo/wiki/Themes
   [2]: http://ww2.sinaimg.cn/large/51530583gw1ee17y3p11zg207804lnhh.gif

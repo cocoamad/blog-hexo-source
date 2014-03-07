@@ -3,14 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives | @sunnyxx</title>
+  <title>hexo的私人订制 | @sunnyxx</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="og:type" content="blog">
-<meta name="og:title">
-<meta name="og:url" content="http://blog.sunnyxx.com/archives/">
-<meta name="og:image">
+<meta name="og:title" content="hexo的私人订制">
+<meta name="og:url" content="http://blog.sunnyxx.com/2014/03/07/hexo_customize/">
+<meta name="og:image" content="http://ww3.sinaimg.cn/large/51530583gw1ee7835uauoj20j804mwen.jpg">
 <meta name="og:site_name" content="@sunnyxx">
-<meta name="og:description">
+<meta name="og:description" content="准备工作
+Fork it!
+从0开始多费劲，先从hexo的主题中选一个看的过去的，从上面加工。
+这次选的是hexo的默认主题Landscape，觉得一个大banner挺好看而已。
+主题在github上，https://github.com/hexojs/hexo-theme-landscape废话不说，先fork一份，虽然不会再merge回去了。
+fork完去setting页面改个名字，就叫它pr">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="@sunnyxx" type="application/atom+xml">
@@ -57,9 +62,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-hexo_customize" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hexo_customize" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/03/07/hexo_customize/" class="article-date">
   <time datetime="2014-03-07T08:26:34.000Z" itemprop="datePublished">Mar 7 2014</time>
@@ -72,8 +75,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/07/hexo_customize/">hexo的私人订制</a>
+    <h1 class="article-title" itemprop="name">
+      hexo的私人订制
     </h1>
   
 
@@ -352,394 +355,26 @@ line<span class="attribute">-height</span><span class="attribute">-title</span> 
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-ios_exam_0" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/03/06/ios_exam_0/" class="article-date">
-  <time datetime="2014-03-06T15:10:58.000Z" itemprop="datePublished">Mar 6 2014</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/06/ios_exam_0/">ios6级考试-基础</a>
-    </h1>
+    <a href="/2014/03/06/ios_exam_0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ios6级考试-基础</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre><span class="keyword">...</span>
-[request startAsync];
-sleep(<span class="number">100</span>);
-[request setCompetionBlock:^{
-	NSLog(@<span class="string">"Can I be print?"</span>);
-}];
-<span class="keyword">...</span>
-</pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.sunnyxx.com/2014/03/06/ios_exam_0/" data-id="fcop3e2guaypadgy" class="article-share-link">Share</a>
-      
-        <a href="http://blog.sunnyxx.com/2014/03/06/ios_exam_0/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
 
 
-  
-    <article id="post-rac_3_racsignal" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/03/06/rac_3_racsignal/" class="article-date">
-  <time datetime="2014-03-06T14:45:43.000Z" itemprop="datePublished">Mar 6 2014</time>
-</a>
-    
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/06/rac_3_racsignal/">Reactive Cocoa Tutorial [3] = &quot;RACSignal的巧克力工厂“;</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Reactive Cocoa Tutorial 系列，转载请注明该文源地址 <a href="http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/">http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/</a>  -- by sunnyxx</p>
-<h2 id="overview">Overview</h2>
-<p>　　上一篇介绍了函数式编程和<code>RACStream</code>，使得函数得以串联起来，而它的具体子类，也是RAC编程中最重要的部分，<code>RACSignal</code>就是使得算式得以逐步运算并使其有意义的关键所在，本节主要介绍<code>RACSignal</code>的机理，具体的使用放到接下来的几节。
-&lt;img src=&quot;<a href="http://pic.jschina.com.cn/0/12/03/96/12039600_602173.jpg" target="_blank">http://pic.jschina.com.cn/0/12/03/96/12039600_602173.jpg</a>&quot; width=&quot;400px align=&quot;center&quot; /&gt;</p>
-<h2 id="-">巧克力工厂的运作模式</h2>
-<p>　　RACStream实现了一个嵌套函数的结构，如f(x) = f1(f2(f3(x)))，但好像是考试卷子上的一道题，没有人去做它，没得出个结果的话这道题是没有意义的。</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/03/06/rac_3_racsignal/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/" data-id="3ccuhpf71415ka3c" class="article-share-link">Share</a>
-      
-        <a href="http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reactive Cocoa Tutorial/">Reactive Cocoa Tutorial</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-rac_2_racstream" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/03/06/rac_2_racstream/" class="article-date">
-  <time datetime="2014-03-06T14:34:27.000Z" itemprop="datePublished">Mar 6 2014</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/06/rac_2_racstream/">Reactive Cocoa Tutorial [2] = &quot;百变RACStream&quot;;</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Reactive Cocoa Tutorial 系列，转载请注明该文源地址 -- by sunny</p>
-<h2 id="overview">Overview</h2>
-<p>　　在RAC下开发干的最多的事就是建立RACSignal和subscribe RACSignal了，它是RAC的核心所在。本篇介绍了RAC的运作原理和设计思路，从函数式编程形成的RACStream继而介绍它的子类 - RAC最核心的部分RACSignal。</p>
-<h2 id="-">函数式编程</h2>
-<p>　　我们知道Reactive Cocoa是函数式编程(Functional Programing)(FP)思想的实现。FP有一套成熟的理论，这里只讲讲我个人理解吧。</p>
-<p>　　我觉得FP就是“<strong>像计算函数表达式一样来解决一个问题</strong>”，举个栗子，中学题：</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/03/06/rac_2_racstream/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.sunnyxx.com/2014/03/06/rac_2_racstream/" data-id="kxrg9je3kca6zyg4" class="article-share-link">Share</a>
-      
-        <a href="http://blog.sunnyxx.com/2014/03/06/rac_2_racstream/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reactive Cocoa Tutorial/">Reactive Cocoa Tutorial</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-rac_1_macros" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/03/06/rac_1_macros/" class="article-date">
-  <time datetime="2014-03-06T14:11:04.000Z" itemprop="datePublished">Mar 6 2014</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/06/rac_1_macros/">Reactive Cocoa Tutorial [1] = &quot;神奇的Macros&quot;;</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Reactive Cocoa Tutorial 系列，转载请注明该文源地址 -- by sunnyxx</p>
-<hr>
-<h2 id="-rac-">先说说RAC中必须要知道的宏：</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="tag">RAC</span>(<span class="tag">TARGET</span>, <span class="attr_selector">[KEYPATH, [NIL_VALUE]</span>])
-</pre></td></tr></table></figure>
-
-<p>使用：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre>RAC(self<span class="preprocessor">.outputLabel</span>, text) = self<span class="preprocessor">.inputTextField</span><span class="preprocessor">.rac</span>_textSignal<span class="comment">;</span>
-
-RAC(self<span class="preprocessor">.outputLabel</span>, text, @<span class="string">"收到nil时就显示我"</span>) = self<span class="preprocessor">.inputTextField</span><span class="preprocessor">.rac</span>_textSignal<span class="comment">;</span>
-</pre></td></tr></table></figure>
-
-<p>　　这个宏是最常用的，<code>RAC()</code>总是出现在等号左边，等号右边是一个<code>RACSignal</code>，表示的意义是将一个对象的一个<code>属性</code>和一个<code>signal</code>绑定，signal每产生一个value（id类型），都会自动执行：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>[TARGET <span class="keyword">set</span>Value:value ?: NIL_VALUE <span class="keyword">for</span>KeyPath:KEYPATH];
-</pre></td></tr></table></figure>
-
-<p>　　数字值会升级为<code>NSNumber *</code>，当setValue:forKeyPath时会自动降级成基本类型（int, float ,BOOL等），所以RAC绑定一个基本类型的值是没有问题的</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/03/06/rac_1_macros/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.sunnyxx.com/2014/03/06/rac_1_macros/" data-id="j3lfr1a24lye0kzz" class="article-share-link">Share</a>
-      
-        <a href="http://blog.sunnyxx.com/2014/03/06/rac_1_macros/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reactive Cocoa Tutorial/">Reactive Cocoa Tutorial</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-rac_0_overview" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/03/06/rac_0_overview/" class="article-date">
-  <time datetime="2014-03-06T13:58:30.000Z" itemprop="datePublished">Mar 6 2014</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/06/rac_0_overview/">Reactive Cocoa Tutorial [0] = &quot;Overview&quot;;</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于这系列（如果真能写下去的话）：说是教程有点狂，边学边总结，更像个笔记吧，等完全用透之后再写就会忘了一开始学习过程中遇到的问题了，Reactive Cocoa（RAC）现在资料真心少，中文英文加起来没几篇，还都是转来转去的。这是个好东西，相信以后用的人会变多，转了请留该文原地址哦~  by sunny
-
-        
-          <p class="article-more-link">
-            <a href="/2014/03/06/rac_0_overview/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.sunnyxx.com/2014/03/06/rac_0_overview/" data-id="aws0k404484lzcbr" class="article-share-link">Share</a>
-      
-        <a href="http://blog.sunnyxx.com/2014/03/06/rac_0_overview/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reactive Cocoa Tutorial/">Reactive Cocoa Tutorial</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="objc-objc_category_secret" class="article article-type-objc" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/03/05/objc_category_secret/" class="article-date">
-  <time datetime="2014-03-05T09:37:19.000Z" itemprop="datePublished">Mar 5 2014</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/05/objc_category_secret/">objc category的秘密</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="category-">category的真面目</h2>
-<p>objc所有类和对象都是c结构体，category当然也一样，下面是<code>runtime</code>中category的结构：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre><span class="keyword">struct</span> _category_t {
-	<span class="keyword">const</span> <span class="keyword">char</span> *name; <span class="comment">// 1</span>
-	<span class="keyword">struct</span> _class_t *cls; <span class="comment">// 2</span>
-	<span class="keyword">const</span> <span class="keyword">struct</span> _method_list_t *instance_methods; <span class="comment">// 3</span>
-	<span class="keyword">const</span> <span class="keyword">struct</span> _method_list_t *class_methods; <span class="comment">// 4</span>
-	<span class="keyword">const</span> <span class="keyword">struct</span> _protocol_list_t *protocols; <span class="comment">// 5</span>
-	<span class="keyword">const</span> <span class="keyword">struct</span> _prop_list_t *properties; <span class="comment">// 6</span>
-};
-</pre></td></tr></table></figure>
-
-<p>
-        
-          <p class="article-more-link">
-            <a href="/2014/03/05/objc_category_secret/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.sunnyxx.com/2014/03/05/objc_category_secret/" data-id="uvwxajzmn8zo57gu" class="article-share-link">Share</a>
-      
-        <a href="http://blog.sunnyxx.com/2014/03/05/objc_category_secret/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-mac下使用hexo搭建blog" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/02/27/mac下使用hexo搭建blog/" class="article-date">
-  <time datetime="2014-02-27T06:56:47.000Z" itemprop="datePublished">Feb 27 2014</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/02/27/mac下使用hexo搭建blog/">使用hexo搭建blog边做边记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="install">Install</h1>
-<p><strong>安装nvm（Node Version Manager）</strong>，Terminal中运行</p>
-<pre><code>$ curl https://raw.github.com/creationix/nvm/master/install.sh | sh
-</code></pre><p>会提示：</p>
-<pre><code>=&gt; Close and reopen your terminal to start using NVM
-</code></pre><p>退出Terminal重启后nvm命令才能生效。  使用nvm安装node.js：
-
-        
-          <p class="article-more-link">
-            <a href="/2014/02/27/mac下使用hexo搭建blog/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://blog.sunnyxx.com/2014/02/27/mac下使用hexo搭建blog/" data-id="iydgsknsxyledn9n" class="article-share-link">Share</a>
-      
-        <a href="http://blog.sunnyxx.com/2014/02/27/mac下使用hexo搭建blog/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
+</section>
 </section>
         
           <aside id="sidebar">
@@ -828,11 +463,13 @@ RAC(self<span class="preprocessor">.outputLabel</span>, text, @<span class="stri
 <script>
   var disqus_shortname = 'sunyuan1713';
   
+  var disqus_url = 'http://blog.sunnyxx.com/2014/03/07/hexo_customize/';
+  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//go.disqus.com/count.js';
+    dsq.src = '//go.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>

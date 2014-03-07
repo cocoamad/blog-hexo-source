@@ -3,9 +3,9 @@
 ## Source: https://github.com/tommy351/hexo/
 
 # Site
-title: sunnyxx
-subtitle: sunnyxx的技术博客
-description: sunnyxx的技术博客
+title: @sunnyxx
+subtitle: 
+description: 
 author: sunnyxx
 email: sunyuan1713@gmail.com
 language: zh-Hans
@@ -82,7 +82,7 @@ disqus_shortname: sunyuan1713
 # Extensions
 ## Plugins: https://github.com/tommy351/hexo/wiki/Plugins
 ## Themes: https://github.com/tommy351/hexo/wiki/Themes
-theme: pacman
+theme: present
 exclude_generator:
 
 # Markdown

@@ -1,175 +1,142 @@
-
- <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   
-    <title>sunnyxx</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
-    
-    <meta name="author" content="sunnyxx">
-    
-    <meta name="description" content="sunnyxx的技术博客">
-    
-    
-    
-    
-    
-    <link rel="icon" href="/img/favicon.ico">
-    
-    
-    <link rel="apple-touch-icon" href="/img/pacman.jpg">
-    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
-    
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <title>@sunnyxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="og:type" content="blog">
+<meta name="og:title">
+<meta name="og:url" content="http://blog.sunnyxx.com/">
+<meta name="og:image">
+<meta name="og:site_name" content="@sunnyxx">
+<meta name="og:description">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="@sunnyxx" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
 </head>
-
-  <body>
-    <header>
-      <div>
-		
-			<div id="imglogo">
-				<a href="/"><img src="/img/logo.svg" alt="sunnyxx" title="sunnyxx"/></a>
-			</div>
-			
-			<div id="textlogo">
-				<h1 class="site-name"><a href="/" title="sunnyxx">sunnyxx</a></h1>
-				<h2 class="blog-motto">sunnyxx的技术博客</h2>
-			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
-			</a></div>
-			<nav class="animated">
-				<ul>
-					<ul>
-					 
-						<li><a href="/">Home</a></li>
-					
-						<li><a href="/archives">Archives</a></li>
-					
-					<li>
-					
-					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
-						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
-						<input type="hidden" name="q" value="site:blog.sunnyxx.com">
-					</form>
-					
-					</li>
-				</ul>
-			</nav>			
-</div>
-    </header>
-    <div id="container">
-      <div id="main">
-
-  <section class="post" itemscope itemprop="blogPost">
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+<!--     <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">@sunnyxx</a>
+      </h1>
+      
+    </div> -->
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://blog.sunnyxx.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
   
-    <a href="/2014/03/06/ios_exam_0/" title="ios6级考试-基础" itemprop="url">
-  
-    <h1 itemprop="name">ios6级考试-基础</h1>
+    <article id="post-hexo_customize" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/03/07/hexo_customize/" class="article-date">
+  <time datetime="2014-03-07T08:26:34.000Z" itemprop="datePublished">Mar 7 2014</time>
+</a>
     
-     
-           <p itemprop="description" >1
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/07/hexo_customize/">hexo的私人订制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="-">准备工作</h1>
+<h2 id="fork-it-">Fork it!</h2>
+<p>从0开始多费劲，先从hexo的主题中选一个看的过去的，从上面加工。
+这次选的是hexo的默认主题<code>Landscape</code>，觉得一个大banner挺好看而已。
+主题在github上，<a href="https://github.com/hexojs/hexo-theme-landscape" target="_blank">https://github.com/hexojs/hexo-theme-landscape</a><br>废话不说，先fork一份，虽然不会再merge回去了。
+fork完去setting页面改个名字，就叫它<code>present</code>了，因为当时看到群里正说<code>presentViewController</code>的事- -
+<img src="http://ww3.sinaimg.cn/large/51530583gw1ee7835uauoj20j804mwen.jpg" alt=""></p>
+<ul>
+<li>hexo工程的<code>themes/</code>目录默认是在<code>.gitignore</code>里的，意思是主题和内容是应该分开的
+theme作为主项目的<code>submodule</code>，所以主题更改时也应该单独提交了</li>
+</ul>
+<h2 id="clone-it-">Clone it！</h2>
+<p>把刚fork的名为<code>present</code>的theme安装到hexo目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>git clone <span class="symbol">https:</span>/<span class="regexp">/github.com/sunnyxx</span><span class="regexp">/present themes/present</span>
+</pre></td></tr></table></figure>
+
+<p>去<code>/_config.yml</code>中找到并设置：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="preprocessor"># Extensions</span>
+<span class="preprocessor">## Plugins: https://github.com/tommy351/hexo/wiki/Plugins</span>
+<span class="preprocessor">## Themes: https://github.com/tommy351/hexo/wiki/Themes</span>
+theme: present <span class="comment">// 修改这儿</span>
+</pre></td></tr></table></figure>
+
+<p>运行下<code>hexo server</code>就能立刻看到效果了</p>
+<h1 id="-theme">开始定制theme</h1>
+<p>先得看看hexo theme里面的结构：</p>
+<ul>
+<li>_config.yml - 主题总体配置</li>
+<li>/layout/*.ejs - 网页布局</li>
+<li>/source/css/*.styl - 网页样式</li>
+</ul>
+<h2 id="-banner">定制banner</h2>
+<p><img src="http://ww4.sinaimg.cn/large/51530583gw1ee78mkdkspj20jp06bq3h.jpg" alt="banner">
+默认的banner图是个地球星空图，先从它下手，这张图位于<code>/themes/present/source/css/images/banner.jpg</code>
+这图分辨率有<code>1920x1200</code>之大，显示的部分很少，搞一张喜欢的banner图，PS成大概的尺寸（高度还就得设的很大才行，虽然只显示一小部分，否则会出现显示不出来图片的状况），我这儿PS过的是一张png，名为<code>banner.png</code>，文件名修改需找找到位于<code>/themes/present/source/css/_variables.styl</code>中，修改为<code>banner.png</code>：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
 5
-6
-7
-...
-[request startAsync];
-sleep(100);
-[request setCompetionBlock:^{
-	NSLog(@&quot;Can I be print?&quot;);
-}];
-...</p>
-        
-    
-    <time datetime="2014-03-06T15:10:58.000Z" itemprop="datePublished">Mar 6 2014</time>
-  </a>
-</section>
+</pre></td><td class="code"><pre><span class="comment">// Header</span>
+logo<span class="attribute">-size</span> <span class="subst">=</span> <span class="number">40</span>px
+subtitle<span class="attribute">-size</span> <span class="subst">=</span> <span class="number">16</span>px
+banner<span class="attribute">-height</span> <span class="subst">=</span> <span class="number">404</span>px <span class="comment">// 看看多高合适</span>
+banner<span class="attribute">-url</span> <span class="subst">=</span> <span class="string">"images/banner.png"</span> <span class="comment">// 修改这里</span>
+</pre></td></tr></table></figure>
 
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2014/03/06/rac_3_racsignal/" title="Reactive Cocoa Tutorial [3] = &quot;RACSignal的巧克力工厂“;" itemprop="url">
-  
-    <h1 itemprop="name">Reactive Cocoa Tutorial [3] = &quot;RACSignal的巧克力工厂“;</h1>
-    
-     
-       <p itemprop="description" >Reactive Cocoa Tutorial 系列，转载请注明该文源地址 http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/  -- by sunnyxx
-Overview
-　　上一篇介绍了函数式编程和RACStream，使得</p>
-      
-    
-    <time datetime="2014-03-06T14:45:43.000Z" itemprop="datePublished">Mar 6 2014</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2014/03/06/rac_2_racstream/" title="Reactive Cocoa Tutorial [2] = &quot;百变RACStream&quot;;" itemprop="url">
-  
-    <h1 itemprop="name">Reactive Cocoa Tutorial [2] = &quot;百变RACStream&quot;;</h1>
-    
-     
-       <p itemprop="description" >Reactive Cocoa Tutorial 系列，转载请注明该文源地址 -- by sunny
-Overview
-　　在RAC下开发干的最多的事就是建立RACSignal和subscribe RACSignal了，它是RAC的核心所在。本篇介绍了RAC的运作原理和设计思路，从</p>
-      
-    
-    <time datetime="2014-03-06T14:34:27.000Z" itemprop="datePublished">Mar 6 2014</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2014/03/06/rac_1_macros/" title="Reactive Cocoa Tutorial [1] = &quot;神奇的Macros&quot;;" itemprop="url">
-  
-    <h1 itemprop="name">Reactive Cocoa Tutorial [1] = &quot;神奇的Macros&quot;;</h1>
-    
-     
-       <p itemprop="description" >Reactive Cocoa Tutorial 系列，转载请注明该文源地址 -- by sunnyxx
-
-先说说RAC中必须要知道的宏：
-1
-RAC(TARGET, [KEYPATH, [NIL_VALUE]])
-
-
-使用：
-1
-2
-3
-RAC(self.outputLabel,</p>
-      
-    
-    <time datetime="2014-03-06T14:11:04.000Z" itemprop="datePublished">Mar 6 2014</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2014/03/06/rac_0_overview/" title="Reactive Cocoa Tutorial [0] = &quot;Overview&quot;;" itemprop="url">
-  
-    <h1 itemprop="name">Reactive Cocoa Tutorial [0] = &quot;Overview&quot;;</h1>
-    
-     
-       <p itemprop="description" >关于这系列（如果真能写下去的话）：说是教程有点狂，边学边总结，更像个笔记吧，等完全用透之后再写就会忘了一开始学习过程中遇到的问题了，Reactive Cocoa（RAC）现在资料真心少，中文英文加起来没几篇，还都是转来转去的。这是个好东西，相信以后用的人会变多，转了请留该文原地址</p>
-      
-    
-    <time datetime="2014-03-06T13:58:30.000Z" itemprop="datePublished">Mar 6 2014</time>
-  </a>
-</section>
-
-  <section class="objc" itemscope itemprop="blogPost">
-  
-    <a href="/2014/03/05/objc_category_secret/" title="objc category的秘密" itemprop="url">
-  
-    <h1 itemprop="name">objc category的秘密</h1>
-    
-     
-       <p itemprop="description" >category的真面目
-objc所有类和对象都是c结构体，category当然也一样，下面是runtime中category的结构：
-1
+<p>然后就变成这鸟样了：
+<img src="http://ww2.sinaimg.cn/large/51530583gw1ee790pxkk9j20fv085t9c.jpg" alt="专业多了">
+这个标题横在这儿太恶心了，我的banner里面已经有标题了，这就是需要修改布局了，header的布局在<code>/themes/present/layout/_partial/header.ejs</code>，打开修改：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -177,135 +144,708 @@ objc所有类和对象都是c结构体，category当然也一样，下面是runt
 6
 7
 8
-struct _category_t {
-	const char *name; // 1
-	struct _cl</p>
+9
+10
+11
+</pre></td><td class="code"><pre>// 把这一段都注释掉好了：
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"header-title"</span> <span class="attribute">class</span>=<span class="value">"inner"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">h1</span> <span class="attribute">id</span>=<span class="value">"logo-wrap"</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"&lt;%- config.root %&gt;"</span> <span class="attribute">id</span>=<span class="value">"logo"</span>&gt;</span><span class="vbscript">&lt;%= config.title %&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">h1</span>&gt;</span>
+    <span class="vbscript">&lt;% <span class="keyword">if</span> (theme.subtitle){ %&gt;</span>
+        <span class="tag">&lt;<span class="title">h2</span> <span class="attribute">id</span>=<span class="value">"subtitle-wrap"</span>&gt;</span>
+          <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"&lt;%- config.root %&gt;"</span> <span class="attribute">id</span>=<span class="value">"subtitle"</span>&gt;</span><span class="vbscript">&lt;%= theme.subtitle %&gt;</span><span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">h2</span>&gt;</span>
+    <span class="vbscript">&lt;% } %&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>然后世界变清净了。
+<img src="http://ww3.sinaimg.cn/large/51530583gw1ee79b2xop4j201u0bt0sm.jpg" alt="丑">
+默认主题里面banner上下都有个渐变，换了图之后就尤其丑，干掉之。
+这个是样式的修改，所以肯定在<code>present/source/css/_partial</code>里面了，再看这位置明显是header嘛，所以<code>header.styl</code>就是你了：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre><span class="comment">#header</span>
+  height: banner-height
+  position: <span class="built_in">relative</span>
+  border-bottom: <span class="number">1</span>px solid color-border
+  &:<span class="keyword">before</span>, &:<span class="keyword">after</span>
+    content: <span class="string">""</span>
+    position: absolute
+    left: <span class="number">0</span>
+    <span class="constant">right</span>: <span class="number">0</span>
+    height: <span class="number">40</span>px
+  &:<span class="keyword">before</span>
+    top: <span class="number">0</span>
+    background: linear-gradient(rgba(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.2</span>), transparent)<span class="comment"> // 找到你了，注释掉！</span>
+  &:<span class="keyword">after</span>
+    bottom: <span class="number">0</span>
+    background: linear-gradient(transparent, rgba(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.2</span>))<span class="comment"> // 也找到你了，注释掉！</span>
+</pre></td></tr></table></figure>
+
+<p>瞬间清爽很多，但又发现去掉之后字看不清了：
+<img src="http://ww4.sinaimg.cn/large/51530583gw1ee79ex02pgj206901u0qo.jpg" alt="看不清！">
+还是在这个文件：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="variable">$nav</span><span class="attribute">-link</span>
+  float: left
+  color: <span class="variable">#000</span> <span class="comment">// 改个深色</span>
+  opacity: <span class="number">1.0</span> <span class="comment">// 别半透明的</span>
+  text<span class="attribute">-decoration</span>: <span class="literal">none</span>
+  <span class="comment">/*text-shadow: 0 1px rgba(0, 0, 0, 0.2)*/</span> <span class="comment">// 改个阴影</span>
+  transition: opacity <span class="number">0.2</span>s
+  display: block
+  padding: <span class="number">20</span>px <span class="number">15</span>px
+  <span class="subst">&</span>:hover
+    opacity: <span class="number">1</span>
+</pre></td></tr></table></figure>
+
+<p>much better
+<img src="http://ww3.sinaimg.cn/large/51530583tw1ee79mmlwkaj205401iwe9.jpg" alt="better"></p>
+<h2 id="-">定制文章样式</h2>
+<p>列几个常用的：</p>
+<p>在<code>/themes/present/source/css/_variables.styl</code>中：</p>
+<h4 id="-">调整主区域布局（很值得修改）</h4>
+<p>默认的主题的主区域太窄了，没几个字就得换行，下面的<code>main-column</code>控制主区域宽，<code>sidebar-column</code>控制sidebar宽，这两个值加一起凑成全部宽度，会居中对齐。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="comment">// Layout</span>
+block<span class="attribute">-margin</span> <span class="subst">=</span> <span class="number">20</span>px
+article<span class="attribute">-padding</span> <span class="subst">=</span> <span class="number">20</span>px <span class="comment">// 文章内缩进</span>
+mobile<span class="attribute">-nav</span><span class="attribute">-width</span> <span class="subst">=</span> <span class="number">280</span>px
+main<span class="attribute">-column</span> <span class="subst">=</span> <span class="number">12</span> <span class="comment">// 主文章区域的宽度</span>
+sidebar<span class="attribute">-column</span> <span class="subst">=</span> <span class="number">3</span> <span class="comment">// 侧边栏区域的宽度</span>
+</pre></td></tr></table></figure>
+
+<h4 id="-">修改代码字体</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>font<span class="attribute">-mono</span> <span class="subst">=</span> <span class="string">"Source Code Pro"</span>, Menlo<span class="comment">/*Menlo必须提前面啊*/</span>, Monaco, Consolas, Consolas, monospace
+</pre></td></tr></table></figure>
+
+<h4 id="-">修改正文字体和行高</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>font<span class="attribute">-size</span> <span class="subst">=</span> <span class="number">15</span>px <span class="comment">// Menlo字体我看15px的很清楚</span>
+line<span class="attribute">-height</span> <span class="subst">=</span> <span class="number">1.6</span>em
+line<span class="attribute">-height</span><span class="attribute">-title</span> <span class="subst">=</span> <span class="number">1.3</span>em
+</pre></td></tr></table></figure>
+
+<hr>
+<p>位于<code>/themes/present/source/css/_partial/article.styl</code>的样式文件负责文章里面的样式</p>
+<h4 id="-">修改图片格式</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>  img, video
+    <span class="keyword">max</span><span class="attribute">-width</span>: <span class="number">100</span><span class="subst">%</span>
+    height: auto
+    display: block
+    margin: <span class="number">10</span> <span class="number">10</span> <span class="number">10</span> <span class="number">10</span> <span class="comment">// 默认丫居中的，改成左对齐好了</span>
+</pre></td></tr></table></figure>
+
+<h4 id="-blockquote-">修改blockquote样式</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>  blockquote
+    font<span class="attribute">-family</span>: font<span class="attribute">-serif</span>
+    font<span class="attribute">-size</span>: <span class="number">2.0</span>em <span class="comment">// 搞大点</span>
+    margin: line<span class="attribute">-height</span> <span class="number">20</span>px
+    text<span class="attribute">-align</span>: left <span class="comment">// 必须应该左对齐啊</span>
+</pre></td></tr></table></figure>
+
+<hr>
+<p>位于<code>/themes/present/source/css/_extend.styl</code>的样式文件定义了基本样式</p>
+<h4 id="-">修改标题样式</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre>  h1
+    font-<span class="keyword">size</span>: <span class="number">2</span>em
+  h2
+    font-<span class="keyword">size</span>: <span class="number">1.5</span>em
+  h3
+    font-<span class="keyword">size</span>: <span class="number">1.3</span>em
+  h4
+    font-<span class="keyword">size</span>: <span class="number">1.2</span>em
+  h5
+    font-<span class="keyword">size</span>: <span class="number">1</span>em
+  h6
+    font-<span class="keyword">size</span>: <span class="number">1</span>em
+    <span class="keyword">color</span>: <span class="keyword">color</span>-grey
+</pre></td></tr></table></figure>
+
+<h4 id="-">修改文章背景</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="variable">$block</span>
+  background: <span class="variable">#fbfbfb</span> <span class="comment">// 白里透着灰</span>
+  <span class="comment">/*box-shadow: 1px 2px 3px #eee*/</span> <span class="comment">// 扁平化咋能要阴影</span>
+  border: <span class="number">1.5</span>px solid <span class="variable">#ccc</span> <span class="comment">// 边框</span>
+  border<span class="attribute">-radius</span>: <span class="number">10</span>px <span class="comment">// 圆角矩形走起</span>
+</pre></td></tr></table></figure>
+
+<h1 id="-widget">开始定制widget</h1>
+<p>// TODO:</p>
+<h2 id="-">添加多说评论</h2>
+<p>// TODO:</p>
+<h2 id="-">添加友情链接</h2>
+<p>// TODO:</p>
+
       
-    
-    <time datetime="2014-03-05T09:37:19.000Z" itemprop="datePublished">Mar 5 2014</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2014/02/27/mac下使用hexo搭建blog/" title="使用hexo搭建blog边做边记" itemprop="url">
-  
-    <h1 itemprop="name">使用hexo搭建blog边做边记</h1>
-    
-     
-       <p itemprop="description" >Install
-安装nvm（Node Version Manager），Terminal中运行
-$ curl https://raw.github.com/creationix/nvm/master/install.sh | sh
-会提示：
-=&gt; Close and reo</p>
-      
-    
-    <time datetime="2014-02-27T06:56:47.000Z" itemprop="datePublished">Feb 27 2014</time>
-  </a>
-</section>
-
-
-</div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-<div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
-<aside class="clearfix">
-
-  
-
-  
-<div class="tagslist">
-	<p class="asidetitle">标签</p>
-		<ul class="clearfix">
-		
-			<li><a href="/tags/Reactive Cocoa Tutorial/" title="Reactive Cocoa Tutorial">Reactive Cocoa Tutorial<sup>4</sup></a></li>
-		
-			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
-		
-		</ul>
-</div>
-
-
-  <div class="rsspart">
-	<a href="null" target="_blank" title="rss">RSS 订阅</a>
-</div>
-
-</aside>
-</div>
     </div>
-    <footer><div id="footer" >
-	
-	<div class="line">
-		<span></span>
-		<div class="author"></div>
-	</div>
-	
-	
-	<div class="social-font" class="clearfix">
-		
-		
-		
-		
-	</div>
-		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
-		
-		<a href="http://blog.sunnyxx.com" target="_blank" title="sunnyxx">sunnyxx</a>
-		
-		</p>
-</div>
-</footer>
-    <script src="/js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.navbar').click(function(){
-    $('header nav').toggleClass('shownav');
-  });
-  var myWidth = 0;
-  function getSize(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-  };
-  var m = $('#main'),
-      a = $('#asidepart'),
-      c = $('.closeaside'),
-      o = $('.openaside');
-  $(window).resize(function(){
-    getSize(); 
-    if (myWidth >= 1024) {
-      $('header nav').removeClass('shownav');
-    }else
-    {
-      m.removeClass('moveMain');
-      a.css('display', 'block').removeClass('fadeOut');
-      o.css('display', 'none');
+    <footer class="article-footer">
+      <a data-url="http://blog.sunnyxx.com/2014/03/07/hexo_customize/" data-id="3odok6y62qveme8p" class="article-share-link">Share</a>
+      
+        <a href="http://blog.sunnyxx.com/2014/03/07/hexo_customize/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ios_exam_0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/03/06/ios_exam_0/" class="article-date">
+  <time datetime="2014-03-06T15:10:58.000Z" itemprop="datePublished">Mar 6 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
         
-    }
-  });
-  c.click(function(){
-    a.addClass('fadeOut').css('display', 'none');
-    o.css('display', 'block').addClass('fadeIn');
-    m.addClass('moveMain');
-  });
-  o.click(function(){
-    o.css('display', 'none').removeClass('beforeFadeIn');
-    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
-    m.removeClass('moveMain');
-  });
-  $(window).scroll(function(){
-    o.css("top",Math.max(80,260-$(this).scrollTop()));
-  });
-});
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/06/ios_exam_0/">ios6级考试-基础</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="keyword">...</span>
+[request startAsync];
+sleep(<span class="number">100</span>);
+[request setCompetionBlock:^{
+	NSLog(@<span class="string">"Can I be print?"</span>);
+}];
+<span class="keyword">...</span>
+</pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sunnyxx.com/2014/03/06/ios_exam_0/" data-id="fcop3e2guaypadgy" class="article-share-link">Share</a>
+      
+        <a href="http://blog.sunnyxx.com/2014/03/06/ios_exam_0/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-rac_3_racsignal" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/03/06/rac_3_racsignal/" class="article-date">
+  <time datetime="2014-03-06T14:45:43.000Z" itemprop="datePublished">Mar 6 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/06/rac_3_racsignal/">Reactive Cocoa Tutorial [3] = &quot;RACSignal的巧克力工厂“;</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Reactive Cocoa Tutorial 系列，转载请注明该文源地址 <a href="http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/">http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/</a>  -- by sunnyxx</p>
+<h2 id="overview">Overview</h2>
+<p>　　上一篇介绍了函数式编程和<code>RACStream</code>，使得函数得以串联起来，而它的具体子类，也是RAC编程中最重要的部分，<code>RACSignal</code>就是使得算式得以逐步运算并使其有意义的关键所在，本节主要介绍<code>RACSignal</code>的机理，具体的使用放到接下来的几节。
+&lt;img src=&quot;<a href="http://pic.jschina.com.cn/0/12/03/96/12039600_602173.jpg" target="_blank">http://pic.jschina.com.cn/0/12/03/96/12039600_602173.jpg</a>&quot; width=&quot;400px align=&quot;center&quot; /&gt;</p>
+<h2 id="-">巧克力工厂的运作模式</h2>
+<p>　　RACStream实现了一个嵌套函数的结构，如f(x) = f1(f2(f3(x)))，但好像是考试卷子上的一道题，没有人去做它，没得出个结果的话这道题是没有意义的。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2014/03/06/rac_3_racsignal/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/" data-id="3ccuhpf71415ka3c" class="article-share-link">Share</a>
+      
+        <a href="http://blog.sunnyxx.com/2014/03/06/rac_3_racsignal/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reactive Cocoa Tutorial/">Reactive Cocoa Tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-rac_2_racstream" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/03/06/rac_2_racstream/" class="article-date">
+  <time datetime="2014-03-06T14:34:27.000Z" itemprop="datePublished">Mar 6 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/06/rac_2_racstream/">Reactive Cocoa Tutorial [2] = &quot;百变RACStream&quot;;</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Reactive Cocoa Tutorial 系列，转载请注明该文源地址 -- by sunny</p>
+<h2 id="overview">Overview</h2>
+<p>　　在RAC下开发干的最多的事就是建立RACSignal和subscribe RACSignal了，它是RAC的核心所在。本篇介绍了RAC的运作原理和设计思路，从函数式编程形成的RACStream继而介绍它的子类 - RAC最核心的部分RACSignal。</p>
+<h2 id="-">函数式编程</h2>
+<p>　　我们知道Reactive Cocoa是函数式编程(Functional Programing)(FP)思想的实现。FP有一套成熟的理论，这里只讲讲我个人理解吧。</p>
+<p>　　我觉得FP就是“<strong>像计算函数表达式一样来解决一个问题</strong>”，举个栗子，中学题：</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2014/03/06/rac_2_racstream/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sunnyxx.com/2014/03/06/rac_2_racstream/" data-id="kxrg9je3kca6zyg4" class="article-share-link">Share</a>
+      
+        <a href="http://blog.sunnyxx.com/2014/03/06/rac_2_racstream/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reactive Cocoa Tutorial/">Reactive Cocoa Tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-rac_1_macros" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/03/06/rac_1_macros/" class="article-date">
+  <time datetime="2014-03-06T14:11:04.000Z" itemprop="datePublished">Mar 6 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/06/rac_1_macros/">Reactive Cocoa Tutorial [1] = &quot;神奇的Macros&quot;;</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Reactive Cocoa Tutorial 系列，转载请注明该文源地址 -- by sunnyxx</p>
+<hr>
+<h2 id="-rac-">先说说RAC中必须要知道的宏：</h2>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="tag">RAC</span>(<span class="tag">TARGET</span>, <span class="attr_selector">[KEYPATH, [NIL_VALUE]</span>])
+</pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>RAC(self<span class="preprocessor">.outputLabel</span>, text) = self<span class="preprocessor">.inputTextField</span><span class="preprocessor">.rac</span>_textSignal<span class="comment">;</span>
+
+RAC(self<span class="preprocessor">.outputLabel</span>, text, @<span class="string">"收到nil时就显示我"</span>) = self<span class="preprocessor">.inputTextField</span><span class="preprocessor">.rac</span>_textSignal<span class="comment">;</span>
+</pre></td></tr></table></figure>
+
+<p>　　这个宏是最常用的，<code>RAC()</code>总是出现在等号左边，等号右边是一个<code>RACSignal</code>，表示的意义是将一个对象的一个<code>属性</code>和一个<code>signal</code>绑定，signal每产生一个value（id类型），都会自动执行：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>[TARGET <span class="keyword">set</span>Value:value ?: NIL_VALUE <span class="keyword">for</span>KeyPath:KEYPATH];
+</pre></td></tr></table></figure>
+
+<p>　　数字值会升级为<code>NSNumber *</code>，当setValue:forKeyPath时会自动降级成基本类型（int, float ,BOOL等），所以RAC绑定一个基本类型的值是没有问题的</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2014/03/06/rac_1_macros/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sunnyxx.com/2014/03/06/rac_1_macros/" data-id="j3lfr1a24lye0kzz" class="article-share-link">Share</a>
+      
+        <a href="http://blog.sunnyxx.com/2014/03/06/rac_1_macros/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reactive Cocoa Tutorial/">Reactive Cocoa Tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-rac_0_overview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/03/06/rac_0_overview/" class="article-date">
+  <time datetime="2014-03-06T13:58:30.000Z" itemprop="datePublished">Mar 6 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/06/rac_0_overview/">Reactive Cocoa Tutorial [0] = &quot;Overview&quot;;</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于这系列（如果真能写下去的话）：说是教程有点狂，边学边总结，更像个笔记吧，等完全用透之后再写就会忘了一开始学习过程中遇到的问题了，Reactive Cocoa（RAC）现在资料真心少，中文英文加起来没几篇，还都是转来转去的。这是个好东西，相信以后用的人会变多，转了请留该文原地址哦~  by sunny
+
+        
+          <p class="article-more-link">
+            <a href="/2014/03/06/rac_0_overview/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sunnyxx.com/2014/03/06/rac_0_overview/" data-id="aws0k404484lzcbr" class="article-share-link">Share</a>
+      
+        <a href="http://blog.sunnyxx.com/2014/03/06/rac_0_overview/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Reactive Cocoa Tutorial/">Reactive Cocoa Tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="objc-objc_category_secret" class="article article-type-objc" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/03/05/objc_category_secret/" class="article-date">
+  <time datetime="2014-03-05T09:37:19.000Z" itemprop="datePublished">Mar 5 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/05/objc_category_secret/">objc category的秘密</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="category-">category的真面目</h2>
+<p>objc所有类和对象都是c结构体，category当然也一样，下面是<code>runtime</code>中category的结构：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">struct</span> _category_t {
+	<span class="keyword">const</span> <span class="keyword">char</span> *name; <span class="comment">// 1</span>
+	<span class="keyword">struct</span> _class_t *cls; <span class="comment">// 2</span>
+	<span class="keyword">const</span> <span class="keyword">struct</span> _method_list_t *instance_methods; <span class="comment">// 3</span>
+	<span class="keyword">const</span> <span class="keyword">struct</span> _method_list_t *class_methods; <span class="comment">// 4</span>
+	<span class="keyword">const</span> <span class="keyword">struct</span> _protocol_list_t *protocols; <span class="comment">// 5</span>
+	<span class="keyword">const</span> <span class="keyword">struct</span> _prop_list_t *properties; <span class="comment">// 6</span>
+};
+</pre></td></tr></table></figure>
+
+<p>
+        
+          <p class="article-more-link">
+            <a href="/2014/03/05/objc_category_secret/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sunnyxx.com/2014/03/05/objc_category_secret/" data-id="uvwxajzmn8zo57gu" class="article-share-link">Share</a>
+      
+        <a href="http://blog.sunnyxx.com/2014/03/05/objc_category_secret/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mac下使用hexo搭建blog" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/02/27/mac下使用hexo搭建blog/" class="article-date">
+  <time datetime="2014-02-27T06:56:47.000Z" itemprop="datePublished">Feb 27 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/27/mac下使用hexo搭建blog/">使用hexo搭建blog边做边记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="install">Install</h1>
+<p><strong>安装nvm（Node Version Manager）</strong>，Terminal中运行</p>
+<pre><code>$ curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+</code></pre><p>会提示：</p>
+<pre><code>=&gt; Close and reopen your terminal to start using NVM
+</code></pre><p>退出Terminal重启后nvm命令才能生效。  使用nvm安装node.js：
+
+        
+          <p class="article-more-link">
+            <a href="/2014/02/27/mac下使用hexo搭建blog/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://blog.sunnyxx.com/2014/02/27/mac下使用hexo搭建blog/" data-id="iydgsknsxyledn9n" class="article-share-link">Share</a>
+      
+        <a href="http://blog.sunnyxx.com/2014/02/27/mac下使用hexo搭建blog/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reactive Cocoa Tutorial/">Reactive Cocoa Tutorial</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Reactive Cocoa Tutorial/" style="font-size: 20.00px;">Reactive Cocoa Tutorial</a><a href="/tags/hexo/" style="font-size: 10.00px;">hexo</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">March 2014</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02">February 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/03/07/hexo_customize/">hexo的私人订制</a>
+          </li>
+        
+          <li>
+            <a href="/2014/03/06/ios_exam_0/">ios6级考试-基础</a>
+          </li>
+        
+          <li>
+            <a href="/2014/03/06/rac_3_racsignal/">Reactive Cocoa Tutorial [3] = &quot;RACSignal的巧克力工厂“;</a>
+          </li>
+        
+          <li>
+            <a href="/2014/03/06/rac_2_racstream/">Reactive Cocoa Tutorial [2] = &quot;百变RACStream&quot;;</a>
+          </li>
+        
+          <li>
+            <a href="/2014/03/06/rac_1_macros/">Reactive Cocoa Tutorial [1] = &quot;神奇的Macros&quot;;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 sunnyxx<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'sunyuan1713';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
 </script>
 
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-
-  </body>
- </html>
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
+</body>
+</html>

@@ -104,7 +104,7 @@ $nav-link
 much better
 ![better][6]
 
-##定制文章样式
+##定制样式
 
 列几个常用的：
 
@@ -179,6 +179,31 @@ $block
   border: 1.5px solid #ccc // 边框
   border-radius: 10px // 圆角矩形走起
 ```
+
+##定制代码样式
+这个必须单拿出来写
+> ，搞技术的文笔渣渣，代码再丑那就没救了 ----- sunnyxx
+
+代码的高亮样式在`present/source/css/_partial/highlight.styl`中
+```
+$code-block
+  background: highlight-background
+  /*margin: 0 article-padding * -1*/
+  margin: auto // 默认的顶边对齐是怎么回事？改个居中
+  padding: 15px article-padding
+  border-style: solid
+  border-color: color-border
+  border-width: 0px 0
+  border-radius: 5px // 加个圆角~
+  overflow: auto
+  color: highlight-foreground
+  line-height: font-size * line-height
+
+$line-numbers
+  color: #666
+  font-size: 0.85em
+```
+// TODO:
 
 #开始定制widget
 // TODO:

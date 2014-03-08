@@ -1,4 +1,4 @@
-title: Reactive Cocoa Tutorial [3] = "RACSignal的巧克力工厂“;
+title: Reactive Cocoa Tutorial [3] = "RACSignal的巧克力工厂";
 date: 2014-03-06 22:45:43
 tags: Reactive Cocoa Tutorial
 ---
@@ -7,7 +7,9 @@ Reactive Cocoa Tutorial 系列，转载请注明该文源地址 http://blog.sunn
 ##Overview
 
 　　上一篇介绍了函数式编程和`RACStream`，使得函数得以串联起来，而它的具体子类，也是RAC编程中最重要的部分，`RACSignal`就是使得算式得以逐步运算并使其有意义的关键所在，本节主要介绍`RACSignal`的机理，具体的使用放到接下来的几节。
-<img src="http://pic.jschina.com.cn/0/12/03/96/12039600_602173.jpg" width="400px align="center" />
+
+
+<img src="http://pic.jschina.com.cn/0/12/03/96/12039600_602173.jpg" width="400px"/>
 
 
 ##巧克力工厂的运作模式
@@ -48,7 +50,7 @@ Reactive Cocoa Tutorial 系列，转载请注明该文源地址 http://blog.sunn
 ```
 __block int aNumber = 0;
 
-// Signal that will have the side effect of incrementing `aNumber` block 
+// Signal that will have the side effect of incrementing `aNumber` block
 // variable for each subscription before sending it.
 RACSignal *aSignal = [RACSignal createSignal:^ RACDisposable * (id<RACSubscriber> subscriber) {
     aNumber++;
@@ -138,7 +140,7 @@ RAC(self.outputLabel, text) = self.inputTextField.rac_textSignal;
 ```
 　　现在需求变成“用户输入3个字母以上才输出到label，当不足3个时显示提示”，OK，好办：
 ```
-RAC(self.outputLabel, text) = [[self.inputTextField.rac_textSignal 
+RAC(self.outputLabel, text) = [[self.inputTextField.rac_textSignal
     startWith:@"key is >3"] /* startWith 一开始返回的初始值 */
     filter:^BOOL(NSString *value) {
         return value.length > 3; /* filter使满足条件的值才能传出 */
@@ -151,7 +153,7 @@ RAC(self.outputLabel, text) = [[self.inputTextField.rac_textSignal
 RAC(self.outputLabel, text) = [[self.inputTextField.rac_textSignal
     startWith:@"key is >3"] // startWith 一开始返回的初始值
     filter:^BOOL(NSString *value) { // filter使满足条件的值才能传出
-        return value.length > 3; 
+        return value.length > 3;
     }]
     map:(NSString *value) {　// map将一个值转化为另一个值输出
         return [value isEqualToString:@"sunny"] ? @"bingo!" : value;

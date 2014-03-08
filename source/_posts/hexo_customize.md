@@ -10,6 +10,9 @@ tags: hexo
 主题在github上，https://github.com/hexojs/hexo-theme-landscape  
 废话不说，先fork一份，虽然不会再merge回去了。
 fork完去setting页面改个名字，就叫它`present`了，因为当时看到群里正说`presentViewController`的事- -
+
+<!--more-->
+
 ![][1]
  * hexo工程的`themes/`目录默认是在`.gitignore`里的，意思是主题和内容是应该分开的
 theme作为主项目的`submodule`，所以主题更改时也应该单独提交了
@@ -123,7 +126,7 @@ sidebar-column = 3 // 侧边栏区域的宽度
 ####修改代码字体
 
 ```
-font-mono = "Source Code Pro", Menlo/*Menlo必须提前面啊*/, Monaco, Consolas, Consolas, monospace
+font-mono = Menlo/*Menlo必须提前面啊*/, "Source Code Pro", Monaco, Consolas, Consolas, monospace
 ```
 ####修改正文字体和行高
 ```
@@ -138,11 +141,31 @@ line-height-title = 1.3em
 ####修改图片格式
 ```
   img, video
-    max-width: 100%
+    max-width: 80%
     height: auto
     display: block
-    margin: 10 10 10 10 // 默认丫居中的，改成左对齐好了
+    margin: auto
 ```
+去除图片的描述的caption的话，去`present/source/js/script.js`中修改：
+```
+// Caption
+  $('.article-entry').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+
+      var alt = this.alt;
+
+      // if (alt) $(this).after('<span class="caption">' + alt + '</span>'); 这个去掉
+
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+```
+
 ####修改blockquote样式
 ```
   blockquote
@@ -181,8 +204,8 @@ $block
 ```
 
 ##定制代码样式
-这个必须单拿出来写
-> ，搞技术的文笔渣渣，代码再丑那就没救了 ----- sunnyxx
+这个必须单拿出来写  
+> We shall show no mercy to those shit colored codes ----- sunnyxx
 
 代码的高亮样式在`present/source/css/_partial/highlight.styl`中
 ```
@@ -201,16 +224,87 @@ $code-block
 
 $line-numbers
   color: #666
-  font-size: 0.85em
+  font-size: 0.85em // 行号大小
+
+...
+
+.highlight
+    @extend $code-block
+    pre
+      border: none
+      margin: 0
+      padding: 0
+    table
+      margin: 0
+      width: auto
+      font-size: 14px // 设置代码字体
+      letter-spacing: 1px // 设置字间距，要不太挤了
+
 ```
-// TODO:
+Code block高亮：`我是小代码块高亮`
+```
+.article-entry
+  pre, code
+    font-family: font-mono
+  code
+    background: #e3e3e3
+    color: #666
+    border-radius: 3px // 也来个圆角
+    border-width 1px
+    border-color: #fff
+    text-shadow: 0 1px #fff
+    padding: 0.1em 0.3em // 控制大小
+```
 
 #开始定制widget
-// TODO:
+
 ##添加多说评论
-// TODO:
+在`present/layout/_partial/article.ejs`中最下面，要不用discuss的话先注掉，换成下面的：
+
+```
+<% if (!index && post.comments){ %>
+<section id="comments">
+  <!-- Duoshuo Comment BEGIN -->
+  <div class="ds-thread"></div>
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"sunnyxx"};
+        (function() {
+          var ds = document.createElement('script');
+          ds.type = 'text/javascript';ds.async = true;
+          ds.src = 'http://static.duoshuo.com/embed.js';
+          ds.charset = 'UTF-8';
+          (document.getElementsByTagName('head')[0]
+          || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+  </script>
+<!-- Duoshuo Comment END -->
+</section>
+<% } %>
+```
 ##添加友情链接
-// TODO:
+首先，在`present/layout/_widget/`目录下新建一个文件，随便copy个当前目录下的改名也行，我这儿叫`friends.ejs`
+编辑这个文件：
+```
+<div class="widget tag">
+	<h3 class="title">友情链接</h3>
+	<ul class="entry">
+	<li><a href="http://zhouxl.github.io" title="小六">小六的博客</a></li>
+	</ul>
+</div>
+```
+里面以上面的格式定义友情链接，css套用了tag定义好的格式，随后修改`present/_config.yml`
+```
+# Sidebar
+sidebar: right
+widgets:
+- category
+- tag
+- tagcloud
+- archive
+- recent_posts
+- friends // 新加的就是刚才`_widget`目录中新建的文件的文件名
+```
+然后刷新页面，效果就出来了~
 
   [1]: http://ww3.sinaimg.cn/large/51530583gw1ee7835uauoj20j804mwen.jpg
   [2]: http://ww4.sinaimg.cn/large/51530583gw1ee78mkdkspj20jp06bq3h.jpg

@@ -1,7 +1,7 @@
 layout: objc
 title: objc category的秘密
 date: 2014-03-05 17:37:19
-tags:
+tags: objc的秘密
 ---
 
 ##category的真面目
@@ -16,7 +16,7 @@ struct _category_t {
 	const struct _prop_list_t *properties; // 6
 };
 ```
-<!--more--> 
+<!--more-->
  1. `name`注意，并不是category小括号里写的名字，而是类的名字
  2. `cls`要扩展的类对象，编译期间这个值是不会有的，在app被runtime加载时才会根据`name`对应到类对象
  3. `instance_methods`这个category所有的`-`方法
@@ -43,7 +43,7 @@ $ clang -rewrite-objc sark.m
 同级目录下会生成`sark.cpp`，这就是`objc`代码重写成`c++`(基本就是c)的实现。
 打开生成的文件，发现茫茫多，排除include进来的header，自己的代码都在文件尾部了，看看上面的category被编译器搞成什么样子了：
 ``` c
-static struct _category_t _OBJC_$_CATEGORY_Sark_$_GayExtention __attribute__ ((used, section ("__DATA,__objc_const"))) = 
+static struct _category_t _OBJC_$_CATEGORY_Sark_$_GayExtention __attribute__ ((used, section ("__DATA,__objc_const"))) =
 {
 	"Sark",
 	0, // &OBJC_CLASS_$_Sark,
@@ -81,7 +81,7 @@ static struct _category_t *L_OBJC_LABEL_CATEGORY_$ [1] __attribute__((used, sect
  2. 调用`map_images`方法将文件中的`image`map到内存
  3. 调用`_read_images`方法初始化map后的`image`，这里面干了很多的事情，像load所有的类、协议和**category**，著名的`+ load`方法就是这一步调用的
  4. 仔细看category的初始化，循环调用了`_getObjc2CategoryList`方法，这个方法拿出来看看：
- 5. ... 
+ 5. ...
 
 
 ``` objc
@@ -94,7 +94,7 @@ static struct _category_t *L_OBJC_LABEL_CATEGORY_$ [1] __attribute__((used, sect
         *outCount = byteCount / sizeof(type);                           \
         return data;                                                    \
     }
-    
+
 // ... //
 
 GETSECT(_getObjc2CategoryList, category_t *, "__objc_catlist");
@@ -103,12 +103,12 @@ GETSECT(_getObjc2CategoryList, category_t *, "__objc_catlist");
 
 在调用完`_getObjc2CategoryList`后，runtime终于开始了**category的处理**，简化的代码如下
 ``` objc
-// Process this category. 
-// First, register the category with its target class. 
-// Then, rebuild the class's method lists (etc) if 
-// the class is realized. 
+// Process this category.
+// First, register the category with its target class.
+// Then, rebuild the class's method lists (etc) if
+// the class is realized.
 BOOL classExists = NO;
-if (cat->instanceMethods ||  cat->protocols  ||  cat->instanceProperties) 
+if (cat->instanceMethods ||  cat->protocols  ||  cat->instanceProperties)
 {
     addUnattachedCategoryForClass(cat, cls, hi);
     if (isRealized(cls)) {
@@ -117,7 +117,7 @@ if (cat->instanceMethods ||  cat->protocols  ||  cat->instanceProperties)
     }
 }
 
-if (cat->classMethods  ||  cat->protocols ) 
+if (cat->classMethods  ||  cat->protocols )
 {
     addUnattachedCategoryForClass(cat, cls->isa, hi);
     if (isRealized(cls->isa)) {
@@ -127,8 +127,8 @@ if (cat->classMethods  ||  cat->protocols )
 ```
 首先分成两拨，一拨是实例对象相关的调用`addUnattachedCategoryForClass`，一拨是类对象相关的调用`addUnattachedCategoryForClass`，然后会调到`attachCategoryMethods`方法，这个方法把一个类所有的category_list的所有方法取出来组成一个`method_list_t **`，注意，这里是`倒序`添加的，也就是说，新生成的category的方法会先于旧的category的方法插入
 ```
-static void 
-attachCategoryMethods(class_t *cls, category_list *cats, 
+static void
+attachCategoryMethods(class_t *cls, category_list *cats,
                       BOOL *inoutVtablesAffected)
 {
     if (!cats) return;

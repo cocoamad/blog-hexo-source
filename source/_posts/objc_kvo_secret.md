@@ -1,4 +1,4 @@
-title: objc_kvo_secret
+title: objc kvo的秘密
 date: 2014-03-09 09:47:04
 tags: objc的秘密
 ---

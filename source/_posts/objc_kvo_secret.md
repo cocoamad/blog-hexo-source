@@ -53,6 +53,13 @@ Sark
 (lldb) po object_getClass(sark)
 Sark
 ```
+上面的结果说明，在sark对象被观察时，framework使用`runtime`动态创建了一个Sark类的子类`NSKVONotifying_Sark`  
+而且为了隐藏这个行为，NSKVONotifying_Sark重写了`- class`方法返回之前的类，就好像什么也没发生过一样  
+但是使用`object_getClass()`时就暴露了，因为这个方法返回的是这个对象的`isa`指针，**这个指针指向的一定是个这个对象的类对象**  
+
+接下来验证一下KVO重写set方法后是否调用了`- willChangeValueForKey:`和`- didChangeValueForKey:`  
+最直接的验证方法就是在Sark类中重写这两个方法：
+
 
 ```
 @implementation Sark
@@ -71,9 +78,13 @@ Sark
 
 @end
 ```
-
+// TODO:
 
 ##KVO的硬伤
 ###KVO坑爹的API
+// TODO:
+到现在还没有block版本的API？
 ###KVO难于调试
+// TODO:
 ###KVO的死循环
+// TODO:

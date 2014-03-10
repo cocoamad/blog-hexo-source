@@ -10,7 +10,7 @@ KVO(Key Value Observing)，是`观察者模式`在`Foundation`中的实现
  1. 当一个object有观察者时，动态创建这个object的类的子类
  2. 对于每个被观察的property，重写其`set`方法
  3. 在重写的`set`方法中调用`- willChangeValueForKey:`和`- didChangeValueForKey:`通知观察者
- 4. 当一个property没有观察者时，删除重写的`set`和`get`
+ 4. 当一个property没有观察者时，删除重写的方法
  5. 当没有observer观察任何一个property时，删除动态创建的子类
 
 空说无凭，简单验证下。

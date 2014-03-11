@@ -1,5 +1,5 @@
-date: 2014-03-07 15:53:05.412
-argv: node /Users/yuan.sun/.nvm/v0.10.26/bin/hexo server
+date: 2014-03-11 21:40:55.085
+argv: node /Users/sunny/.nvm/v0.10.26/bin/hexo generate
 os: Darwin 13.0.0 darwin x64
 version:
   hexo: 2.4.5
@@ -13,36 +13,45 @@ version:
   openssl: 1.0.1e
 ---
 
-[debug] 15:49:53.213 Configuration file load successfully
-[debug] 15:49:53.215 Version info checked successfully
-[debug] 15:49:53.266 Loading database.
-[debug] 15:49:53.320 Plugin loaded successfully: hexo-generator-sitemap
-[debug] 15:49:53.336 Script load successfully: fancybox.js
-[debug] 15:49:53.351 Theme layout loaded
-[debug] 15:49:53.361 Theme configuration loaded
-[debug] 15:49:53.364 Processed: CNAME
-[debug] 15:49:53.365 Processed: favicon.ico
-[debug] 15:49:53.392 Theme source loaded
-[debug] 15:49:53.894 Processed: _posts/ios_exam_0.md
-[debug] 15:49:53.895 Processed: _posts/mac下使用hexo搭建blog.md
-[debug] 15:49:53.895 Processed: _posts/objc_category_secret.md
-[debug] 15:49:53.896 Processed: _posts/rac_0_overview.md
-[debug] 15:49:53.896 Processed: _posts/rac_1_macros.md
-[debug] 15:49:53.897 Processed: _posts/rac_2_racstream.md
-[debug] 15:49:53.897 Processed: _posts/rac_3_racsignal.md
-[debug] 15:49:53.905 Cache saved
-[info] 15:49:54.199 Hexo is running at localhost:4000/. Press Ctrl+C to stop.
-[debug] 15:50:02.447 Render index: 
-[delete] 15:53:05.301 Theme: source/css/images/banner.jpg
-[error] 15:53:05.404 ReferenceError: route is not defined
-ReferenceError: route is not defined
-    at _watchSource (/Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/lib/core/theme.js:210:5)
-    at /Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/lib/core/theme.js:260:15
-    at /Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:108:13
-    at Array.forEach (native)
-    at _each (/Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:32:24)
-    at Object.async.each (/Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:107:9)
-    at async.series.generate.watch (/Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/lib/core/theme.js:249:17)
-    at /Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:548:21
-    at /Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:224:13
-    at iterate (/Users/yuan.sun/.nvm/v0.10.26/lib/node_modules/hexo/node_modules/async/lib/async.js:131:13)
+[debug] 21:40:53.746 Configuration file load successfully
+[debug] 21:40:53.748 Version info checked successfully
+[debug] 21:40:53.778 Loading database.
+[debug] 21:40:53.815 Plugin loaded successfully: hexo-generator-sitemap
+[debug] 21:40:53.818 Script load successfully: fancybox.js
+[debug] 21:40:53.838 Theme layout loaded
+[debug] 21:40:53.858 Theme configuration loaded
+[debug] 21:40:53.862 Processed: CNAME
+[debug] 21:40:53.862 Processed: favicon.ico
+[debug] 21:40:54.346 Theme source loaded
+[debug] 21:40:54.664 Processed: _posts/hexo_customize.md
+[debug] 21:40:54.664 Processed: _posts/ios_exam_0.md
+[debug] 21:40:54.664 Processed: _posts/mac下使用hexo搭建blog.md
+[debug] 21:40:54.664 Processed: _posts/objc_category_secret.md
+[debug] 21:40:54.664 Processed: _posts/objc_kvo_secret.md
+[debug] 21:40:54.664 Processed: _posts/rac_0_overview.md
+[debug] 21:40:54.664 Processed: _posts/rac_1_macros.md
+[debug] 21:40:54.664 Processed: _posts/rac_2_racstream.md
+[debug] 21:40:54.664 Processed: _posts/rac_3_racsignal.md
+[debug] 21:40:54.667 Cache saved
+[info] 21:40:54.971 Files loaded in 1.152s
+[debug] 21:40:54.981 Public folder cleared: archives/index.html,archives/2014/index.html,archives/2014/02/index.html,archives/2014/03/index.html,index.html,2014/03/09/objc_kvo_secret/index.html,2014/03/07/hexo_customize/index.html,2014/03/06/ios_exam_0/index.html,2014/03/06/rac_3_racsignal/index.html,2014/03/06/rac_2_racstream/index.html,2014/03/06/rac_1_macros/index.html,2014/03/06/rac_0_overview/index.html,2014/03/05/objc_category_secret/index.html,2014/02/27/mac下使用hexo搭建blog/index.html,tags/hexo/index.html,tags/ios6级考试/index.html,tags/objc的秘密/index.html,tags/Reactive Cocoa Tutorial/index.html,CNAME,favicon.ico,js/script.js,fancybox/blank.gif,fancybox/fancybox_loading.gif,fancybox/fancybox_loading@2x.gif,fancybox/fancybox_overlay.png,fancybox/fancybox_sprite.png,fancybox/fancybox_sprite@2x.png,fancybox/jquery.fancybox.css,fancybox/jquery.fancybox.js,fancybox/jquery.fancybox.pack.js,fancybox/helpers/fancybox_buttons.png,fancybox/helpers/jquery.fancybox-buttons.css,fancybox/helpers/jquery.fancybox-buttons.js,fancybox/helpers/jquery.fancybox-media.js,fancybox/helpers/jquery.fancybox-thumbs.css,fancybox/helpers/jquery.fancybox-thumbs.js,css/style.css,css/fonts/FontAwesome.otf,css/fonts/fontawesome-webfont.eot,css/fonts/fontawesome-webfont.svg,css/fonts/fontawesome-webfont.ttf,css/fonts/fontawesome-webfont.woff,css/images/banner.jpg,css/images/banner.png,sitemap.xml
+[debug] 21:40:54.982 Render archive: archives/
+[debug] 21:40:54.982 Render archive: archives/2014/
+[debug] 21:40:54.982 Render archive: archives/2014/02/
+[debug] 21:40:54.982 Render archive: archives/2014/03/
+[debug] 21:40:54.982 Render index: 
+[debug] 21:40:54.982 Render post: 2014/03/09/objc_kvo_secret/
+[debug] 21:40:54.982 Render post: 2014/03/07/hexo_customize/
+[debug] 21:40:54.982 Render post: 2014/03/06/ios_exam_0/
+[debug] 21:40:54.983 Render post: 2014/03/06/rac_3_racsignal/
+[debug] 21:40:54.983 Render post: 2014/03/06/rac_2_racstream/
+[debug] 21:40:54.983 Render post: 2014/03/06/rac_1_macros/
+[debug] 21:40:54.983 Render post: 2014/03/06/rac_0_overview/
+[debug] 21:40:54.983 Render post: 2014/03/05/objc_category_secret/
+[debug] 21:40:54.983 Render post: 2014/02/27/mac下使用hexo搭建blog/
+[debug] 21:40:54.983 Render tag: tags/hexo/
+[debug] 21:40:54.983 Render tag: tags/ios6级考试/
+[debug] 21:40:54.983 Render tag: tags/objc的秘密/
+[debug] 21:40:54.983 Render tag: tags/Reactive Cocoa Tutorial/
+[error] 21:40:54.984 Error: ENOENT, open '/Users/sunny/git/blog-hexo-source/themes/present/source/css/images/banner.jpg'
+Error: ENOENT, open '/Users/sunny/git/blog-hexo-source/themes/present/source/css/images/banner.jpg'

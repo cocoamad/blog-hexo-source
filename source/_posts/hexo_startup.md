@@ -1,4 +1,4 @@
-title: 使用hexo搭建blog边做边记
+title: hexo边搭边记
 date: 2014-02-27 14:56:47
 tags: hexo
 ---
@@ -11,7 +11,7 @@ tags: hexo
 
     => Close and reopen your terminal to start using NVM
 退出Terminal重启后nvm命令才能生效。  使用nvm安装node.js：
-<!--more--> 
+<!--more-->
     $ nvm install 0.10
 下完后安装hexo，这一步时间比较长：
 
@@ -37,7 +37,7 @@ tags: hexo
 新建一篇文章：
 
     $ hexo new mac下使用hexo搭建blog
-$ open source/_posts/mac下使用hexo搭建blog.md 
+$ open source/_posts/mac下使用hexo搭建blog.md
 编辑md后生成html：
 
     $ hexo generate
@@ -49,7 +49,7 @@ Theme，去官方提供的[主题列表][1]中选个现成的，按照里面的�
 
 
     $ git clone git://github.com/tommy351/hexo-theme-light.git themes/light
-    
+
 _config.yml配置文件中设置：
 
     theme: light
@@ -158,4 +158,4 @@ $ nvm use 0.10
   [1]: https://github.com/tommy351/hexo/wiki/Themes
   [2]: http://ww2.sinaimg.cn/large/51530583gw1ee17y3p11zg207804lnhh.gif
   [3]: http://ww2.sinaimg.cn/large/51530583gw1ee18d6ak6yj208c08ydg6.jpg
-  [4]: https://stackedit.io/res-min/img/logo-promo-128.png 
+  [4]: https://stackedit.io/res-min/img/logo-promo-128.png

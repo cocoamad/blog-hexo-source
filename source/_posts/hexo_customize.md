@@ -41,7 +41,8 @@ theme: present // 修改这儿
 ##定制banner
 ![banner][2]
 默认的banner图是个地球星空图，先从它下手，这张图位于`/themes/present/source/css/images/banner.jpg`
-这图分辨率有`1920x1200`之大，显示的部分很少，搞一张喜欢的banner图，PS成大概的尺寸（高度还就得设的很大才行，虽然只显示一小部分，否则会出现显示不出来图片的状况），我这儿PS过的是一张png，名为`banner.png`，文件名修改需找找到位于`/themes/present/source/css/_variables.styl`中，修改为`banner.png`：
+这图分辨率有`1920x1200`之大，显示的部分很少，搞一张喜欢的banner图，PS成大概的尺寸（高度还就得设的很大才行，虽然只显示一小部分，否则会出现显示不出来图片的状况），我这儿PS过的是一张png，名为`banner.png`，文件名修改需找找到位于`/themes/present/source/css/_variables.styl`中，修改为`banner.png`  
+**当然，考虑到github的访问速度，这张大图我最后决定用上传微博图床，使用生成的URL，这样加载就快很多**
 ```
 // Header
 logo-size = 40px

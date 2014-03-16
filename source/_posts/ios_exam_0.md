@@ -33,7 +33,7 @@ BOOL b2 = [Father responseToSelector:@selector(responseToSelector:)];
 NSLog(@"%d, %d", b1, b2);
 ```
 
-##梦中的主线程
+##睡梦中的主线程
 
 ```
 ...
@@ -45,4 +45,14 @@ sleep(100); // sleep主线程，使得下面的代码再后台线程完成后才
     NSLog(@"Can I be print?");
 }];
 ...
+```
+
+##frame
+```
+- (void)viewDidLoad
+{
+  [super viewDidLoad];
+  UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width * 0.5, self.bounds.size.height * 0.5)];
+  [self.view addSubview:view];
+}
 ```

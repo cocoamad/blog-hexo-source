@@ -1,6 +1,6 @@
-date: 2014-03-11 21:40:55.085
-argv: node /Users/sunny/.nvm/v0.10.26/bin/hexo generate
-os: Darwin 13.0.0 darwin x64
+date: 2014-03-16 14:12:45.404
+argv: node /Users/sunny/.nvm/v0.10.26/bin/hexo server
+os: Darwin 13.1.0 darwin x64
 version:
   hexo: 2.4.5
   http_parser: 1.0
@@ -13,45 +13,128 @@ version:
   openssl: 1.0.1e
 ---
 
-[debug] 21:40:53.746 Configuration file load successfully
-[debug] 21:40:53.748 Version info checked successfully
-[debug] 21:40:53.778 Loading database.
-[debug] 21:40:53.815 Plugin loaded successfully: hexo-generator-sitemap
-[debug] 21:40:53.818 Script load successfully: fancybox.js
-[debug] 21:40:53.838 Theme layout loaded
-[debug] 21:40:53.858 Theme configuration loaded
-[debug] 21:40:53.862 Processed: CNAME
-[debug] 21:40:53.862 Processed: favicon.ico
-[debug] 21:40:54.346 Theme source loaded
-[debug] 21:40:54.664 Processed: _posts/hexo_customize.md
-[debug] 21:40:54.664 Processed: _posts/ios_exam_0.md
-[debug] 21:40:54.664 Processed: _posts/mac下使用hexo搭建blog.md
-[debug] 21:40:54.664 Processed: _posts/objc_category_secret.md
-[debug] 21:40:54.664 Processed: _posts/objc_kvo_secret.md
-[debug] 21:40:54.664 Processed: _posts/rac_0_overview.md
-[debug] 21:40:54.664 Processed: _posts/rac_1_macros.md
-[debug] 21:40:54.664 Processed: _posts/rac_2_racstream.md
-[debug] 21:40:54.664 Processed: _posts/rac_3_racsignal.md
-[debug] 21:40:54.667 Cache saved
-[info] 21:40:54.971 Files loaded in 1.152s
-[debug] 21:40:54.981 Public folder cleared: archives/index.html,archives/2014/index.html,archives/2014/02/index.html,archives/2014/03/index.html,index.html,2014/03/09/objc_kvo_secret/index.html,2014/03/07/hexo_customize/index.html,2014/03/06/ios_exam_0/index.html,2014/03/06/rac_3_racsignal/index.html,2014/03/06/rac_2_racstream/index.html,2014/03/06/rac_1_macros/index.html,2014/03/06/rac_0_overview/index.html,2014/03/05/objc_category_secret/index.html,2014/02/27/mac下使用hexo搭建blog/index.html,tags/hexo/index.html,tags/ios6级考试/index.html,tags/objc的秘密/index.html,tags/Reactive Cocoa Tutorial/index.html,CNAME,favicon.ico,js/script.js,fancybox/blank.gif,fancybox/fancybox_loading.gif,fancybox/fancybox_loading@2x.gif,fancybox/fancybox_overlay.png,fancybox/fancybox_sprite.png,fancybox/fancybox_sprite@2x.png,fancybox/jquery.fancybox.css,fancybox/jquery.fancybox.js,fancybox/jquery.fancybox.pack.js,fancybox/helpers/fancybox_buttons.png,fancybox/helpers/jquery.fancybox-buttons.css,fancybox/helpers/jquery.fancybox-buttons.js,fancybox/helpers/jquery.fancybox-media.js,fancybox/helpers/jquery.fancybox-thumbs.css,fancybox/helpers/jquery.fancybox-thumbs.js,css/style.css,css/fonts/FontAwesome.otf,css/fonts/fontawesome-webfont.eot,css/fonts/fontawesome-webfont.svg,css/fonts/fontawesome-webfont.ttf,css/fonts/fontawesome-webfont.woff,css/images/banner.jpg,css/images/banner.png,sitemap.xml
-[debug] 21:40:54.982 Render archive: archives/
-[debug] 21:40:54.982 Render archive: archives/2014/
-[debug] 21:40:54.982 Render archive: archives/2014/02/
-[debug] 21:40:54.982 Render archive: archives/2014/03/
-[debug] 21:40:54.982 Render index: 
-[debug] 21:40:54.982 Render post: 2014/03/09/objc_kvo_secret/
-[debug] 21:40:54.982 Render post: 2014/03/07/hexo_customize/
-[debug] 21:40:54.982 Render post: 2014/03/06/ios_exam_0/
-[debug] 21:40:54.983 Render post: 2014/03/06/rac_3_racsignal/
-[debug] 21:40:54.983 Render post: 2014/03/06/rac_2_racstream/
-[debug] 21:40:54.983 Render post: 2014/03/06/rac_1_macros/
-[debug] 21:40:54.983 Render post: 2014/03/06/rac_0_overview/
-[debug] 21:40:54.983 Render post: 2014/03/05/objc_category_secret/
-[debug] 21:40:54.983 Render post: 2014/02/27/mac下使用hexo搭建blog/
-[debug] 21:40:54.983 Render tag: tags/hexo/
-[debug] 21:40:54.983 Render tag: tags/ios6级考试/
-[debug] 21:40:54.983 Render tag: tags/objc的秘密/
-[debug] 21:40:54.983 Render tag: tags/Reactive Cocoa Tutorial/
-[error] 21:40:54.984 Error: ENOENT, open '/Users/sunny/git/blog-hexo-source/themes/present/source/css/images/banner.jpg'
-Error: ENOENT, open '/Users/sunny/git/blog-hexo-source/themes/present/source/css/images/banner.jpg'
+[debug] 14:06:14.488 Configuration file load successfully
+[debug] 14:06:14.491 Version info checked successfully
+[debug] 14:06:14.522 Loading database.
+[debug] 14:06:14.565 Plugin loaded successfully: hexo-generator-sitemap
+[debug] 14:06:14.567 Script load successfully: fancybox.js
+[debug] 14:06:14.582 Theme layout loaded
+[debug] 14:06:14.594 Theme configuration loaded
+[debug] 14:06:14.596 Processed: CNAME
+[debug] 14:06:14.596 Processed: favicon.ico
+[debug] 14:06:14.624 Theme source loaded
+[debug] 14:06:15.387 Processed: _posts/hexo_customize.md
+[debug] 14:06:15.388 Processed: _posts/hexo_startup.md
+[debug] 14:06:15.398 Processed: _posts/ios_exam_0.md
+[debug] 14:06:15.398 Processed: _posts/objc_category_secret.md
+[debug] 14:06:15.399 Processed: _posts/objc_kvo_secret.md
+[debug] 14:06:15.399 Processed: _posts/rac_0_overview.md
+[debug] 14:06:15.399 Processed: _posts/rac_1_macros.md
+[debug] 14:06:15.400 Processed: _posts/rac_2_racstream.md
+[debug] 14:06:15.401 Processed: _posts/rac_3_racsignal.md
+[debug] 14:06:15.401 Processed: _posts/xcode_plugins.md
+[debug] 14:06:15.412 Processed: _posts/objc_arc_secret.md
+[debug] 14:06:15.412 Processed: _posts/sublime_text_markdown.md
+[debug] 14:06:15.422 Cache saved
+[info] 14:06:15.942 Hexo is running at localhost:4000/. Press Ctrl+C to stop.
+[debug] 14:06:17.412 Render index: 
+[update] 14:07:04.657 Source: _posts/sublime_text_markdown.md
+[debug] 14:07:04.779 Processed: _posts/sublime_text_markdown.md
+[debug] 14:07:04.790 Cache saved
+[debug] 14:07:05.334 Render index: 
+[update] 14:07:12.947 Source: _posts/sublime_text_markdown.md
+[debug] 14:07:13.073 Processed: _posts/sublime_text_markdown.md
+[debug] 14:07:13.083 Cache saved
+[debug] 14:07:14.624 Render index: 
+[update] 14:08:49.135 Source: _posts/sublime_text_markdown.md
+[debug] 14:08:49.260 Processed: _posts/sublime_text_markdown.md
+[debug] 14:08:49.270 Cache saved
+[debug] 14:08:50.243 Render index: 
+[update] 14:08:53.952 Source: _posts/sublime_text_markdown.md
+[debug] 14:08:54.085 Processed: _posts/sublime_text_markdown.md
+[debug] 14:08:54.095 Cache saved
+[debug] 14:08:54.583 Render index: 
+[update] 14:09:04.810 Source: _posts/sublime_text_markdown.md
+[debug] 14:09:04.934 Processed: _posts/sublime_text_markdown.md
+[debug] 14:09:04.944 Cache saved
+[debug] 14:09:05.383 Render index: 
+[update] 14:09:11.821 Source: _posts/sublime_text_markdown.md
+[debug] 14:09:11.950 Processed: _posts/sublime_text_markdown.md
+[debug] 14:09:11.960 Cache saved
+[debug] 14:09:12.428 Render index: 
+[update] 14:09:17.907 Source: _posts/sublime_text_markdown.md
+[debug] 14:09:18.036 Processed: _posts/sublime_text_markdown.md
+[debug] 14:09:18.038 Cache saved
+[debug] 14:09:18.623 Render index: 
+[update] 14:09:22.963 Source: _posts/sublime_text_markdown.md
+[debug] 14:09:23.087 Processed: _posts/sublime_text_markdown.md
+[debug] 14:09:23.097 Cache saved
+[debug] 14:09:23.568 Render index: 
+[update] 14:09:28.612 Source: _posts/sublime_text_markdown.md
+[debug] 14:09:28.737 Processed: _posts/sublime_text_markdown.md
+[debug] 14:09:28.746 Cache saved
+[debug] 14:09:29.220 Render index: 
+[update] 14:09:35.025 Source: _posts/sublime_text_markdown.md
+[debug] 14:09:35.151 Processed: _posts/sublime_text_markdown.md
+[debug] 14:09:35.160 Cache saved
+[debug] 14:09:35.615 Render index: 
+[update] 14:09:43.253 Source: _posts/sublime_text_markdown.md
+[debug] 14:09:43.383 Processed: _posts/sublime_text_markdown.md
+[debug] 14:09:43.391 Cache saved
+[debug] 14:09:43.826 Render index: 
+[update] 14:09:50.760 Source: _posts/sublime_text_markdown.md
+[debug] 14:09:50.884 Processed: _posts/sublime_text_markdown.md
+[debug] 14:09:50.894 Cache saved
+[debug] 14:09:51.370 Render index: 
+[update] 14:10:24.445 Source: _posts/sublime_text_markdown.md
+[debug] 14:10:24.566 Processed: _posts/sublime_text_markdown.md
+[debug] 14:10:24.574 Cache saved
+[update] 14:10:48.936 Source: _posts/sublime_text_markdown.md
+[debug] 14:10:49.067 Processed: _posts/sublime_text_markdown.md
+[debug] 14:10:49.076 Cache saved
+[update] 14:10:52.263 Source: _posts/sublime_text_markdown.md
+[debug] 14:10:52.388 Processed: _posts/sublime_text_markdown.md
+[debug] 14:10:52.396 Cache saved
+[debug] 14:10:53.918 Render index: 
+[update] 14:11:08.555 Source: _posts/sublime_text_markdown.md
+[debug] 14:11:08.688 Processed: _posts/sublime_text_markdown.md
+[debug] 14:11:08.696 Cache saved
+[update] 14:11:14.035 Source: _posts/sublime_text_markdown.md
+[debug] 14:11:14.167 Processed: _posts/sublime_text_markdown.md
+[debug] 14:11:14.176 Cache saved
+[update] 14:11:21.192 Source: _posts/sublime_text_markdown.md
+[debug] 14:11:21.324 Processed: _posts/sublime_text_markdown.md
+[debug] 14:11:21.326 Cache saved
+[update] 14:11:27.259 Source: _posts/sublime_text_markdown.md
+[debug] 14:11:27.393 Processed: _posts/sublime_text_markdown.md
+[debug] 14:11:27.402 Cache saved
+[update] 14:11:33.665 Source: _posts/sublime_text_markdown.md
+[debug] 14:11:33.799 Processed: _posts/sublime_text_markdown.md
+[debug] 14:11:33.807 Cache saved
+[update] 14:11:36.969 Source: _posts/sublime_text_markdown.md
+[debug] 14:11:37.094 Processed: _posts/sublime_text_markdown.md
+[debug] 14:11:37.104 Cache saved
+[update] 14:11:43.269 Source: _posts/sublime_text_markdown.md
+[debug] 14:11:43.400 Processed: _posts/sublime_text_markdown.md
+[debug] 14:11:43.410 Cache saved
+[update] 14:11:50.073 Source: _posts/sublime_text_markdown.md
+[debug] 14:11:50.195 Processed: _posts/sublime_text_markdown.md
+[debug] 14:11:50.205 Cache saved
+[update] 14:11:51.143 Source: _posts/sublime_text_markdown.md
+[debug] 14:11:51.276 Processed: _posts/sublime_text_markdown.md
+[debug] 14:11:51.284 Cache saved
+[debug] 14:11:53.379 Render index: 
+[create] 14:12:25.793 Source: _posts/.subl858.tmp
+[update] 14:12:25.892 Source: _posts/sublime_text_markdown.md
+[debug] 14:12:26.018 Processed: _posts/sublime_text_markdown.md
+[debug] 14:12:26.028 Cache saved
+[update] 14:12:39.460 Source: _posts/sublime_text_markdown.md
+[delete] 14:12:39.461 Source: _posts/.subl858.tmp
+[debug] 14:12:39.566 Processed: _posts/.subl858.tmp
+[debug] 14:12:39.597 Processed: _posts/sublime_text_markdown.md
+[debug] 14:12:39.607 Cache saved
+[update] 14:12:41.310 Source: _posts/sublime_text_markdown.md
+[debug] 14:12:41.445 Processed: _posts/sublime_text_markdown.md
+[debug] 14:12:41.454 Cache saved
+[error] 14:12:45.402 Error: ENOENT, stat '/Users/sunny/git/blog-hexo-source/source/_posts/.subl873.tmp'
+Error: ENOENT, stat '/Users/sunny/git/blog-hexo-source/source/_posts/.subl873.tmp'

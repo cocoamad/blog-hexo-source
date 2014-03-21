@@ -18,4 +18,9 @@ github: https://github.com/ksuther/KSImageNamed-Xcode
 注意：项目中图片文件数量很多的时候，安装这个插件导致xcode运行明显缓慢，不知道现在版本是否已经修改了这个bug  
 手写UI的尤其适用，我等sb党用的少点。
 
+##HOStringSense
+github: https://github.com/holtwick/HOStringSense-for-Xcode
+![HOStringSense](https://github.com/holtwick/HOStringSense-for-Xcode/raw/master/StringDemoAnimation.gif)
+帮助快速输入字符串，尤其是长段复杂的字符串。
+
 > to be continue...

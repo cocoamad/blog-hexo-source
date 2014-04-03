@@ -113,3 +113,168 @@ static void object_cxxDestructFromClass(id obj, Class cls)
     }
 }
 ```
+
+代码也不难理解，沿着继承链逐层向上搜寻`SEL_cxx_destruct`这个selector，找到函数实现(`void (*)(id)`函数指针)并执行。  
+搜索这个selector的声明，发现是名为`.cxx_destruct`的方法，以点开头的名字，我想和unix的文件一样，是有**隐藏**属性的
+
+从[这篇文章](http://my.safaribooksonline.com/book/programming/objective-c/9780132908641/3dot-memory-management/ch03)中：
+  >ARC actually creates a -.cxx_destruct method to handle freeing instance variables. This method was originally created for calling C++ destructors automatically when an object was destroyed. 
+
+和《Effective Objective-C 2.0》中提到的：
+  >When the compiler saw that an object contained C++ objects, it would generate a method called .cxx_destruct. ARC piggybacks on this method and emits the required cleanup code within it.  
+
+可以了解到，`.cxx_destruct`方法原本是为了C++对象析构的，ARC借用了这个方法插入代码实现了自动内存释放的工作
+
+-----
+
+## 通过实验找出.cxx_destruct  
+最好的办法还是写个测试代码把这个隐藏的方法找出来，其实在runtime中运行已经没什么隐藏可言了，简单的类结构如下：
+
+```
+@interface Father : NSObject
+@property (nonatomic, copy) NSString *name;
+@end
+
+@interface Son : Father
+@property (nonatomic, copy) NSArray *toys;
+@end
+```
+
+只有两个简单的属性，找个地方写简单的测试代码：
+
+```
+    // start
+    {
+        // before new
+        Son *son = [Son new];
+        son.name = @"sark";
+        son.toys = @[@"sunny", @"xx"];
+        // after new
+    }
+    // gone
+```
+
+主要目的是为了让这个对象走dealloc方法，新建的son对象过了大括号作用域就会释放了，所以在`after new`这行son对象初始化完成，在`gone`这行son对象被dealloc  
+
+个人一直喜欢使用[NSObject+DLIntrospection](https://github.com/garnett/DLIntrospection)这个扩展作为调试工具，可以轻松打出一个类的方法，变量等等。  
+
+将这个扩展引入工程内，在`after new`处设置一个断点，run，trigger后使用lldb命令用这个扩展输出Son类所有的方法名：
+
+![](http://ww3.sinaimg.cn/large/51530583gw1ef27srhw7lj208b05ujrq.jpg)
+
+发现了这个`.cxx_destruct`方法，经过几次试验，发现：
+  1. 只有在ARC下这个方法才会出现（试验代码的情况下）
+  2. 只有当前类拥有实例变量时（不论是不是用property）这个方法才会出现，且父类的实例变量不会导致子类拥有这个方法
+  3. 出现这个方法和变量是否被赋值，赋值成什么没有关系
+
+-----
+
+## 使用watchpoint定位内存释放时刻
+
+依然在`after new`断点处，输入lldb命令：
+```
+watchpoint set variable son->_name
+```
+将`name`的变量加入watchpoint，当这个变量被修改时会触发trigger：
+
+![](http://ww3.sinaimg.cn/large/51530583gw1ef28rn41lcj20fs03aq3b.jpg)
+
+从中可以看出，在这个时刻，`_name`从0x00006b98变成了0x0，也就是nil，赶紧看下调用栈：
+
+![](http://ww1.sinaimg.cn/large/51530583gw1ef2911o40zj20a605yweu.jpg)
+
+发现果然跟到了`.cxx_destruct`方法，而且是在`objc_storeStrong`的过程中释放
+
+## 刨根问底.cxx_destruct
+
+知道了ARC下对象实例变量的释放过程在`.cxx_destruct`内完成，但这个函数内部发生了什么，是如何调用`objc_storeStrong`释放变量的呢？  
+从上面的探究中知道，`.cxx_destruct`是编译器生成的代码，那它很可能在clang前端编译时完成，这让我联想到clang的`Code Generation`，因为之前曾经使用`clang -rewrite-objc xxx.m`时查看过官方文档留下了些印象，于是google：
+
+```
+.cxx_destruct site:clang.llvm.org
+```
+
+结果发现clang的`doxygen`文档中`CodeGenModule`模块正是这部分的实现代码，cxx相关的代码生成部分源码在  
+http://clang.llvm.org/doxygen/CodeGenModule_8cpp-source.html  
+位于1827行，删减掉离题部分如下：  
+
+
+```
+/// EmitObjCIvarInitializations - Emit information for ivar initialization
+/// for an implementation.
+void CodeGenModule::EmitObjCIvarInitializations(ObjCImplementationDecl *D) 
+{
+    DeclContext* DC = const_cast<DeclContext*>(dyn_cast<DeclContext>(D));
+    assert(DC && "EmitObjCIvarInitializations - null DeclContext");
+    IdentifierInfo *II = &getContext().Idents.get(".cxx_destruct");
+    Selector cxxSelector = getContext().Selectors.getSelector(0, &II);
+    ObjCMethodDecl *DTORMethod = ObjCMethodDecl::Create(getContext(), 
+                                                        D->getLocation(),
+                                                        D->getLocation(), cxxSelector,
+                                                        getContext().VoidTy, 0, 
+                                                        DC, true, false, true,
+                                                        ObjCMethodDecl::Required);
+   D->addInstanceMethod(DTORMethod);
+   CodeGenFunction(*this).GenerateObjCCtorDtorMethod(D, DTORMethod, false);
+}
+```
+
+这个函数大概作用是：获取`.cxx_destruct`的selector，创建Method，并加入到这个Class的方法列表中，最后一行的调用才是真的创建这个方法的实现。这个方法位于  
+http://clang.llvm.org/doxygen/CGObjC_8cpp_source.html  
+1354行，包含了构造和析构的cxx方法，继续跟随`.cxx_destruct`，最终调用`emitCXXDestructMethod`函数，代码如下：  
+
+```
+static void emitCXXDestructMethod(CodeGenFunction &CGF, ObjCImplementationDecl *impl) 
+{
+   CodeGenFunction::RunCleanupsScope scope(CGF);
+ 
+   llvm::Value *self = CGF.LoadObjCSelf();
+ 
+   const ObjCInterfaceDecl *iface = impl->getClassInterface();
+   for (const ObjCIvarDecl *ivar = iface->all_declared_ivar_begin(); ivar; ivar = ivar->getNextIvar()) 
+   {
+     QualType type = ivar->getType();
+
+     // Check whether the ivar is a destructible type.
+     QualType::DestructionKind dtorKind = type.isDestructedType();
+     if (!dtorKind) continue;
+ 
+     CodeGenFunction::Destroyer *destroyer = 0;
+ 
+     // Use a call to objc_storeStrong to destroy strong ivars, for the
+     // general benefit of the tools.
+     if (dtorKind == QualType::DK_objc_strong_lifetime) {
+       destroyer = destroyARCStrongWithStore;
+ 
+     // Otherwise use the default for the destruction kind.
+     } else {
+       destroyer = CGF.getDestroyer(dtorKind);
+     }
+ 
+     CleanupKind cleanupKind = CGF.getCleanupKind(dtorKind);
+     CGF.EHStack.pushCleanup<DestroyIvar>(cleanupKind, self, ivar, destroyer,
+                                          cleanupKind & EHCleanup);
+   }
+ 
+   assert(scope.requiresCleanups() && "nothing to do in .cxx_destruct?");
+}
+```
+
+这段代码和跟踪大概干了这么个事：遍历当前对象所有的实例变量（Ivars)，调用
+
+123
+```
+id objc_storeStrong(id *object, id value) {
+  value = [value retain];
+  id oldValue = *object;
+  *object = value;
+  [oldValue release];
+  return value;
+}
+```
+
+
+References： 
+ - http://clang.llvm.org/docs/AutomaticReferenceCounting.html
+ - http://my.safaribooksonline.com/book/programming/objective-c/9780132908641/3dot-memory-management/ch03
+ - http://clang.llvm.org/doxygen/CGObjC_8cpp_source.html

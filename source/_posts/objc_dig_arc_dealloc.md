@@ -51,7 +51,7 @@ tags: objc刨根问底
 
  - 理解：ARC下对象的实例变量在根类[NSObject dealloc]中释放（通常root class都是NSObject），变量释放顺序各种不确定（一个类内的不确定，子类和父类间也不确定，也就是说不用care释放顺序）
 
-所以，不用主调`[super dealloc]`是因为自动调了，暂时不知道如何实现的；ARC下实例变量在根类NSObject析构时析构，下面就探究下。
+所以，不用主调`[super dealloc]`是因为自动调了，后面再说如何实现的；ARC下实例变量在根类NSObject析构时析构，下面就探究下。
 
 ------
 
@@ -114,7 +114,7 @@ static void object_cxxDestructFromClass(id obj, Class cls)
 }
 ```
 
-代码也不难理解，沿着继承链逐层向上搜寻`SEL_cxx_destruct`这个selector，找到函数实现(`void (*)(id)`函数指针)并执行。  
+代码也不难理解，沿着继承链逐层向上搜寻`SEL_cxx_destruct`这个selector，找到函数实现(`void (*)(id)`(函数指针)并执行。  
 搜索这个selector的声明，发现是名为`.cxx_destruct`的方法，以点开头的名字，我想和unix的文件一样，是有**隐藏**属性的
 
 从[这篇文章](http://my.safaribooksonline.com/book/programming/objective-c/9780132908641/3dot-memory-management/ch03)中：
@@ -184,6 +184,8 @@ watchpoint set variable son->_name
 ![](http://ww1.sinaimg.cn/large/51530583gw1ef2911o40zj20a605yweu.jpg)
 
 发现果然跟到了`.cxx_destruct`方法，而且是在`objc_storeStrong`的过程中释放
+
+-----
 
 ## 刨根问底.cxx_destruct
 
@@ -260,9 +262,8 @@ static void emitCXXDestructMethod(CodeGenFunction &CGF, ObjCImplementationDecl *
 }
 ```
 
-这段代码和跟踪大概干了这么个事：遍历当前对象所有的实例变量（Ivars)，调用
+分析这段代码以及其中调用后发现：它遍历当前对象所有的实例变量（Ivars)，调用`objc_storeStrong`，从`clang`的ARC文档上可以找到`objc_storeStrong`的示意代码实现如下：
 
-123
 ```
 id objc_storeStrong(id *object, id value) {
   value = [value retain];
@@ -273,8 +274,69 @@ id objc_storeStrong(id *object, id value) {
 }
 ```
 
+在`.cxx_destruct`进行形如`objc_storeStrong(&ivar, null)`的调用后，这个实例变量就被`release`和设置成`nil`了  
+注：真实的实现可以参考 http://clang.llvm.org/doxygen/CGObjC_8cpp_source.html 2078行
 
-References： 
+-----
+
+## 自动调用[super dealloc]的实现  
+按照上面的思路，自动调用`[super dealloc]`也一定是`CodeGen`干的工作了 
+位于 http://clang.llvm.org/doxygen/CGObjC_8cpp_source.html 492行  
+`StartObjCMethod`方法中：  
+
+```
+ if (ident->isStr("dealloc"))
+    EHStack.pushCleanup<FinishARCDealloc>(getARCCleanupKind()); 
+```
+
+上面代码可以得知在调用`dealloc`方法时被插入了代码，由`FinishARCDealloc`结构定义：  
+
+```
+struct FinishARCDealloc : EHScopeStack::Cleanup {
+   void Emit(CodeGenFunction &CGF, Flags flags) override {
+     const ObjCMethodDecl *method = cast<ObjCMethodDecl>(CGF.CurCodeDecl);
+ 
+     const ObjCImplDecl *impl = cast<ObjCImplDecl>(method->getDeclContext());
+     const ObjCInterfaceDecl *iface = impl->getClassInterface();
+     if (!iface->getSuperClass()) return;
+ 
+     bool isCategory = isa<ObjCCategoryImplDecl>(impl);
+ 
+     // Call [super dealloc] if we have a superclass.
+     llvm::Value *self = CGF.LoadObjCSelf();
+ 
+     CallArgList args;
+     CGF.CGM.getObjCRuntime().GenerateMessageSendSuper(CGF, ReturnValueSlot(),
+                                                       CGF.getContext().VoidTy,
+                                                       method->getSelector(),
+                                                       iface,
+                                                       isCategory,
+                                                       self,
+                                                       /*is class msg*/ false,
+                                                       args,
+                                                       method);
+   }
+};
+```
+
+上面代码基本上就是向父类转发`dealloc`的调用，实现了自动调用`[super dealloc]`方法。  
+
+-----
+## 总结  
+
+  - ARC下对象的成员变量于编译器插入的`.cxx_desctruct`方法自动释放
+  - ARC下`[super dealloc]`方法也由编译器自动插入
+  - 所谓`编译器插入代码`过程需要进一步了解，还不清楚其运作方式
+  - clang的`CodeGen`也值得深入研究一下
+
+-----
+
+## References： 
  - http://clang.llvm.org/docs/AutomaticReferenceCounting.html
  - http://my.safaribooksonline.com/book/programming/objective-c/9780132908641/3dot-memory-management/ch03
  - http://clang.llvm.org/doxygen/CGObjC_8cpp_source.html
+
+-----
+
+by sunnyxx， 原创文章，转载请保留博客地址 blog.sunnyxx.com  
+

@@ -1,15 +1,15 @@
-title: @interface的设计哲学
+title: objc@interface的设计哲学与设计技巧
 date: 2014-04-13 13:01:54
 tags: objc刨根问底
 ---
 
 # 我是前言
-学习objc时，尤其是先学过其他编程语言再来看objc时，总会对objc的**类**声明的关键字`interface`感到有点奇怪，在其它面向对象的语言中通常由`class`关键字来表示，而`interface`在java中表示的却大约相当于objc的`protocol`，这个关键字的区别究竟代表了objc语言的设计者怎样的思想呢？接下来对这个问题进行一些思考和探究.   
+学习objc时，尤其是先学过其他编程语言再来看objc时，总会对objc的**类**声明的关键字`interface`感到有点奇怪，在其它面向对象的语言中通常由`class`关键字来表示，而`interface`在java中表示的却大约相当于objc的`protocol`，这个关键字的区别究竟代表了objc语言的设计者怎样的思想呢，在objc类设计中需要注意哪些问题呢？接下来对这个问题进行一些思考和探究.   
 
 -----
 
 # interface?
-什么是interface？先来段Wiki:  
+先来段Wiki:  
 > In object-oriented programming, a protocol or interface is a common means for unrelated objects to communicate with each other. These are definitions of methods and values which the objects agree upon in order to cooperate.
 
 接口约定了对象间交互的属性和方法，使得对象间无需了解对方就可以协作。  
@@ -17,6 +17,8 @@ tags: objc刨根问底
 引用我和项目组架构师讨论有关interface的问题时他的说法:
 
 > interface就是一个object定义的可以被外界影响的方式
+
+<!--more-->  
 
 说着他指了下旁边桌子上放着的一把伞，说，这把伞我可以打开它，打开这个动作就是它的一个interface，桌子旁边还放着一个盒子，虽然它和伞都放在这张桌子上，但是它们之间永远不会互相影响，所以：  
 
@@ -87,11 +89,37 @@ Sark *sark = ((id (*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass("Sark"), 
 }
 ```
 
-通过对比可以发现，**@interface对objc类结构的合成并无决定性作用**，加上**无决定性**是因为如果没有`@interface`会丢失一些类自省的原始数据，如属性列表和协议列表，但对于纯粹的对象消息发送并无影响。
+通过对比可以发现，**@interface对objc类结构的合成并无决定性作用**，加上**无决定性**是因为如果没有`@interface`会丢失一些类自省的原始数据，如属性列表和协议列表，但对于纯粹的对象消息发送并无影响。  
+所以说，可以得出这么一个结论，**objc中@interface就是为了给调用者看的，是和调用者的一个protocol**，没错，就是**protocol**。
+
+# 对比@interface和@protocol
+
+与其把`@implementation`扯进来不如对比下`@protocol`  
+
+
+我理解objc的`@interface`和`@protocal`间唯一的区别就是**是否和一个类型绑定**，这让我想起来`鸭子类型`(Duck typing), [wiki链接](http://zh.wikipedia.org/wiki/%E9%B8%AD%E5%AD%90%E7%B1%BB%E5%9E%8B) 
+
+> “当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子。”
+
+Duck type在objc的体现无疑就是`@protocol`了，我们常用`id<XXXDelegate> delegate`的方式声明一个delegate，我们无需care这货到底是什么类型，我们只知道他能干什么就可以work了。同样的功能我也可以使用`XXXDelegate *delegate`的方式来定义，只不过这样的话这个类又需要耦合一个`XXXDelegate`类型，而这个delegate类是它原本并不需要关心的。  
+
+所以说，**`@interface`是`@protocol`的强类型升级版。**  
+
+举个`NSObject`的栗子最合适：  
+```
+@interface NSObject <NSObject> {
+    Class isa;
+}
+```
+NSObject之所以成为NSObject，绝大多数都是`<NSObject>`协议定义的方法，实体类@interface定义的唯一一个变量`isa`指针，为了继承链和消息传递。    
+除了`<NSObject>`协议外，NSObject还有很多Category来补充它的功能，其实仔细想想，Category更像protocol，一个`补充协议`，同样不能添加实例变量，但是和`@interface`一样需要与Class绑定。  
+
+进一步来讲，自从属性能自动合成变量之后，在头文件`@interface`中写大括号声明实例变量的情况越来越少（可以参见近几个版本iOS SDK中类头文件里这种写法几乎消失），因此，`@interface`和`@protocol`的差别进一步缩小。  
 
 -----
 
 # 类与接口的设计原则 - 电视和遥控器
+
 我喜欢将`Class`和`interface`的关系比喻成`电视+遥控器`，那么objc中的消息机制就可以理解成：  
 **用户（caller）通过遥控器（interface）上的按钮（methods）发送红外线（message）来操纵电视（object）**  
 所以，有没有遥控器，电视都在那儿，也就是说，有没有interface，class都是存在的，只是这种存在并没有意义，就好像这个电视没人会打开，没人会用，没人能看，一堆废铁摆在那儿。  
@@ -104,8 +132,8 @@ Sark *sark = ((id (*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass("Sark"), 
 所以，在设计一个类的interface的时候，如同在设计遥控器应该有怎样功能的按钮，要从调用者的角度出发，区分边界，应该时刻有以下几点考虑： 
 1. 这个方法或属性真的属于这个类的职责么？（电视遥控器能遥控空调？）
 2. 这个方法或属性真的必须放在`.h`中（而不是放在`.m`的类扩展中）么？
-3. 调用者必须看文档才能知道这个类该如何使用么？（买个电视还非要看说明书才会用？）
-4. 调用者是否可以发现类内部的变量和实现方式？（脑补下电视里面一块电路板漏在外面半截- -） 
+3. 调用者必须看文档才能知道这个类该如何使用么？（同一个业务需要调用者按顺序调用多次（而不是将这些细节隐藏，同时提供一个简洁的接口）才行）
+4. 调用者是否可以很容易发现类内部的变量和实现方式？（脑补下电视里面一块电路板漏在外面半截- -） 
 5. ...  
 
 
@@ -115,7 +143,7 @@ Sark *sark = ((id (*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass("Sark"), 
 
 看过不少代码，从@interface设计上多少就能看出作者的水平，分享下我对于这个问题的一些拙见。 
 
-## .h的@interface中只写需要外部看到的
+## 只暴露外部需要看到的
 
 比如，有如下一个类（这个类无意义，主要关注写法）：  
 ```
@@ -135,19 +163,57 @@ Sark *sark = ((id (*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass("Sark"), 
 3. 内部使用的属性对象不要暴露在外，应该移动到类扩展中。
 4. 调用者对IBAction同样不需要关心，那么就不应该放在这儿。  
 
-## 将类按子功能分组
+## 合理分组子功能
 
-- 将相同功能的一组属性或方法写在一起
-- 在头文件中也可以使用类扩展将interface按功能分区  
+- 将相同功能的一组属性或方法写在一起  
 
-如，RAC
+使用这个类或者对其进行修改时，一般都是从功能上找，所以把同一功能模块的一组属性或方法写在一块
 
+- 纯操作方法的子功能（无需向类添加变量）使用`Category`分块  
+- 在头文件中也可以使用`类扩展`将interface按功能分区 
 
------ 
+`Category`里不能添加实例变量，但是类扩展可以，一般都在`.m`中作为私有interface使用，同样在头文件里作为分区使用，如，ReactiveCocoa中的[RACStream.h](https://github.com/ReactiveCocoa/ReactiveCocoa/blob/master/ReactiveCocoaFramework/ReactiveCocoa/RACStream.h)  
 
+## 避免头文件污染  
+首先，类实现内部.m文件中使用的其他interface应该在.m文件import，如果也写在header中就会造成对调用者的污染；当interface中出现其他`Class`或`protocol`时，可以使用前置声明`@class XXX`, `@protocol XXX`；当模块（一组类）内部间需要有一些定义（如常量、类型）而又不需要模块使用者知道时，使用一个内部头文件在模块中使用。
 
-# References
-http://en.m.wikipedia.org/wiki/Interface_(object-oriented_programming)
+## 避免接口过度设计
+考虑调用者的使用方便是很必要的，过火了反而增加了复杂度：  
+
+```
+@interface Sark : NSObject
+- (instancetype)init;
+- (instancetype)initWithName:(NSString *)name;
+- (instancetype)initWithName:(NSString *)name sex:(NSString *)sex;
+- (instancetype)initWithName:(NSString *)name sex:(NSString *)sex age:(NSInteger)age;
+- (instancetype)initWithName:(NSString *)name sex:(NSString *)sex age:(NSInteger)age friends:(NSArray *)friends;
+// 无数多个 //
+@end
+```
+
+提供了一组这样的方法，调用者可能只能用到其中的一个，那这样倒不如只留一个接口。  
+
+## 避免单例的滥用  
+
+单例模式固然好用，但感觉有点过度，将接口设计成单例入口前需要考虑一下：  
+1. 这个类表达的含义真的只能有一个实例么？（如UIApplication）还是只是为了好调用而已？
+2. 这个单例持有的内存一直存在
+3. 是否能用类方法代替？  
+4. 这个单例对象是否能成为另一个单例对象的属性？如果是，应该作为属性  
 
 -----
-原创文章，转载请注明源地址，blog.sunnyxx.com
+
+# 总结  
+
+- `@implementation`合成了Class，而非`@interface`，`@interface`是`@protocol`的强类型升级版，它们和`Category`都表示了相近的含义
+- 我们应该善于面向接口编程，划清边界，将类的实现隐藏在调用者所见之外，使主调和被调者之间保持`最少知识原则`
+- `@interface`本身就是最好的文档  
+
+-----  
+
+# References
+http://en.m.wikipedia.org/wiki/Interface_(object-oriented_programming)  
+http://zh.wikipedia.org/wiki/%E9%B8%AD%E5%AD%90%E7%B1%BB%E5%9E%8B   
+
+-----
+原创文章，转载请注明源地址，[blog.sunnyxx.com](blog.sunnyxx.com)

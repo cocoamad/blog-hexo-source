@@ -81,7 +81,7 @@ void *objc_destructInstance(id obj)
 
 简单明确的干了三件事：
   1. 执行一个叫`object_cxxDestruct`的东西干了点什么事
-  2. 执行`_object_remove_assocations`去除和这个对象assocate的对象（常用于category中添加带变量的属性，这也是为什么ARC下没必要remove一遍的原因）
+  2. 执行`_object_remove_assocations`去除和这个对象assocate的对象（常用于category中添加带变量的属性，这也是为什么~~<strike>ARC下没必要remove一遍的原因~~</strike> (Edit: 在ARC或MRC下都不需要remove，感谢@sagles的基情提示）
   3. 执行`objc_clear_deallocating`，清空引用计数表并清除弱引用表，将所有`weak`引用指nil（这也就是weak变量能安全置空的所在）
 
 所以，所探寻的ARC自动释放实例变量的地方就在`cxxDestruct`这个东西里面没跑了。

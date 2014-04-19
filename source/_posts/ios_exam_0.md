@@ -55,13 +55,20 @@ sleep(100); // sleep主线程，使得下面的代码在后台线程完成后才
 ...
 ```
 
-##4. 这样做有问题么？
+##4. 不使用IB时，下面这样做有问题么？
 ```
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  CGRect frame = CGRectMake(0, 0, self.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
+  CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width * 0.5, self.bounds.size.height * 0.5);
   UIView *view = [[UIView alloc] initWithFrame:frame];
   [self.view addSubview:view];
 }
 ```
+
+
+-----
+# 答案和解答
+[请戳我，我是传送门](http://blog.sunnyxx.com/2014/03/06/ios_exam_0_key/)
+-----
+原创文章，转载请注明源地址，[blog.sunnyxx.com](blog.sunnyxx.com)

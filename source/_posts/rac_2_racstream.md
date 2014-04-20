@@ -1,4 +1,4 @@
-title: Reactive Cocoa Tutorial [2] = "百变RACStream";
+title: Reactive Cocoa Tutorial [2] = 百变RACStream
 date: 2014-03-06 22:34:27
 tags: Reactive Cocoa Tutorial
 ---

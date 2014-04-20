@@ -1,4 +1,4 @@
-title: Reactive Cocoa Tutorial [0] = "Overview";
+title: Reactive Cocoa Tutorial [0] = Overview
 date: 2014-03-06 21:58:30
 tags: Reactive Cocoa Tutorial
 ---

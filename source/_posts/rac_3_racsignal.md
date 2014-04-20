@@ -1,4 +1,4 @@
-title: Reactive Cocoa Tutorial [3] = "RACSignal的巧克力工厂";
+title: Reactive Cocoa Tutorial [3] = RACSignal的巧克力工厂
 date: 2014-03-06 22:45:43
 tags: Reactive Cocoa Tutorial
 ---

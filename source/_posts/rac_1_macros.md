@@ -1,4 +1,4 @@
-title: Reactive Cocoa Tutorial [1] = "神奇的Macros";
+title: Reactive Cocoa Tutorial [1] = 神奇的Macros
 date: 2014-03-06 22:11:04
 tags: Reactive Cocoa Tutorial
 ---

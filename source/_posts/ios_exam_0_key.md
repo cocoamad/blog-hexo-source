@@ -125,8 +125,8 @@ vc.view.frame = CGRectMake(0, 0, 100, 100);
 {
   if (!_view) {
     [self loadView];
+    [self viewDidLoad]; // Edit: 这句话移动到括号内，感谢@change2hao的提醒
   }
-  [self viewDidLoad];
 }
 ```
 

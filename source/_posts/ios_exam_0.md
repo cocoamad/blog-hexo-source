@@ -41,15 +41,15 @@ BOOL b2 = [Father responseToSelector:@selector(responseToSelector:)];
 NSLog(@"%d, %d", b1, b2);
 ```
 
-##3. 请求很快就执行完成，但是competionBlock很久之后才设置，还能否执行呢？
+##3. 请求很快就执行完成，但是completionBlock很久之后才设置，还能否执行呢？
 
 ```
 ...
 // 当前在主线程
 
-[request startAsync]; // 后台线程异步调用，完成后会在主线程调用competionBlock
+[request startAsync]; // 后台线程异步调用，完成后会在主线程调用completionBlock
 sleep(100); // sleep主线程，使得下面的代码在后台线程完成后才能执行
-[request setCompetionBlock:^{
+[request setCompletionBlock:^{
     NSLog(@"Can I be printed?");
 }];
 ...

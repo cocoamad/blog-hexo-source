@@ -52,15 +52,15 @@ NSLog(@"%d, %d", b1, b2);
 补充：NSObject类中的所有实例方法`很可能`都对应实现了一个类方法（至少从开源的代码中可以看出来），如`+ resonseToSelector`，但并非公开的API，如果真的是这样，上面到第2步就可以找到这个方法。  
 再补充： 非NSObject的selector这样做无效。
 
-##3. 请求很快就执行完成，但是competionBlock很久之后才设置，还能否执行呢？
+##3. 请求很快就执行完成，但是completionBlock很久之后才设置，还能否执行呢？
 
 ```
 ...
 // 当前在主线程
 
-[request startAsync]; // 后台线程异步调用，完成后会在主线程调用competionBlock
+[request startAsync]; // 后台线程异步调用，完成后会在主线程调用completionBlock
 sleep(100); // sleep主线程，使得下面的代码在后台线程完成后才能执行
-[request setCompetionBlock:^{
+[request setCompletionBlock:^{
     NSLog(@"Can I be printed?");
 }];
 ...
@@ -70,32 +70,32 @@ sleep(100); // sleep主线程，使得下面的代码在后台线程完成后才
 解释：为了方便解释，我们将其考虑成`gcd`的两个线性`queue`：main queue 和 back queue  
 
 当代码执行到`sleep(100)`时，这两个queue要执行的顺序看起来是这样的：  
-- main: *--- sleep -------------------------> | ---setCompetionBlock--->
+- main: *--- sleep -------------------------> | ---setCompletionBlock--->
 - back: *--- network ---->
 
 于是网络请求很快回来，回调函数一般要执行如：
 ```
 // 回到主线程执行回调
 dispatch_async(dispatch_get_main_queue(), ^{
-  if (self.competionBlock) self.competionBlock();
+  if (self.completionBlock) self.completionBlock();
 });
 ```
 于是成了这样：  
 
-- main: *----sleep----> | ---setCompetionBlock---> | ---invoke competionBlock---->
+- main: *----sleep----> | ---setCompletionBlock---> | ---invoke completionBlock---->
 - back: *
  
 所以，当sleep结束后，主线程保持了调用顺序：  
-- main: *---setCompetionBlock---> | ---invoke competionBlock---->  
+- main: *---setCompletionBlock---> | ---invoke completionBlock---->  
 
-此时，`copetionBlock`的执行是在`setCompetionBlock`，之后的，所以可以正常回调。  
+此时，`completionBlock`的执行是在`setCompletionBlock`，之后的，所以可以正常回调。  
 
 注：这个解释有一个有限制条件，如果用下面的方法回调，则情况就会不同了：  
 ```
 // 回到主线程执行回调
-if (self.competionBlock) {
+if (self.completionBlock) {
   dispatch_async(dispatch_get_main_queue(), ^{
-    self.competionBlock();
+    self.completionBlock();
 });
 
 ```

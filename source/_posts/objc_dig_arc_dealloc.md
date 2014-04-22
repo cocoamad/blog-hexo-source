@@ -338,5 +338,5 @@ struct FinishARCDealloc : EHScopeStack::Cleanup {
 
 -----
 
-by sunnyxx， 原创文章，转载请保留博客地址 blog.sunnyxx.com  
+原创文章，转载请注明源地址，[blog.sunnyxx.com](http://blog.sunnyxx.com)
 

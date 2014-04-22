@@ -216,4 +216,4 @@ http://en.m.wikipedia.org/wiki/Interface_(object-oriented_programming)
 http://zh.wikipedia.org/wiki/%E9%B8%AD%E5%AD%90%E7%B1%BB%E5%9E%8B   
 
 -----
-原创文章，转载请注明源地址，[blog.sunnyxx.com](blog.sunnyxx.com)
+原创文章，转载请注明源地址，[blog.sunnyxx.com](http://blog.sunnyxx.com)

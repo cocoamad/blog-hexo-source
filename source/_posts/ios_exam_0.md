@@ -71,4 +71,4 @@ sleep(100); // sleep主线程，使得下面的代码在后台线程完成后才
 # 答案和解答
 [请戳我，我是传送门](http://blog.sunnyxx.com/2014/03/06/ios_exam_0_key/)
 -----
-原创文章，转载请注明源地址，[blog.sunnyxx.com](blog.sunnyxx.com)
+原创文章，转载请注明源地址，[blog.sunnyxx.com](http://blog.sunnyxx.com)

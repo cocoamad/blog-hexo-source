@@ -201,6 +201,26 @@ NSObject之所以成为NSObject，绝大多数都是`<NSObject>`协议定义的�
 3. 是否能用类方法代替？  
 4. 这个单例对象是否能成为另一个单例对象的属性？如果是，应该作为属性  
 
+
+## 隐藏继承关系中的私有接口
+
+感谢`@像条狗在飞`在留言中提出的问题，问题大概可以总结为：当子类需要使用父类的一个私有属性（方法）时，需要把这个属性（方法）放到父类的header中，但暴露给子类的同时暴露给了外部调用者，如何解决?   
+
+我的方案是：建立一个`私有header`，使用`类扩展`定义父类需要暴露给子类的属性（方法），然后在各自的`.m`文件中引用，如：  
+
+有Father类和Son类，继承关系，可以考虑建一个如`FatherPrivate.h`的私有header：
+
+```
+// FatherPrivate.h
+@interface Father ()
+@property (nonatomic, copy) NSString *privateThingSonNeed;
+- (void)privateMethodNeedsSonOverride;
+@end
+```
+
+同时在Father.m和Son.m中同时import这个私有header，这样，Father和Son内部对于定义的属性和方法都是透明的，而对外部是隐藏的（因为两个类的header中都没有import这个私有header）  
+
+
 -----
 
 # 总结  

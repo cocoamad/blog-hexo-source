@@ -1,4 +1,4 @@
-title: objc kvo的秘密
+title: objc kvo简单探索
 date: 2014-03-09 09:47:04
 tags: objc的秘密
 ---
@@ -34,8 +34,10 @@ Sark *sark = [Sark new];
 sark.name = @"萨萨萨";
 [sark removeObserver:self forKeyPath:@"name"];
 // breakpoint 3
-```
-断住后分别使用`- class`和`object_getClass()`打出`sark`对象的Class和真实的Class
+``` 
+
+断住后分别使用`- class`和`object_getClass()`打出`sark`对象的Class和真实的Class   
+
 ```
 // breakpoint 1
 (lldb) po sark.class
@@ -54,7 +56,9 @@ NSKVONotifying_Sark
 Sark
 (lldb) po object_getClass(sark)
 Sark
-```
+
+```   
+
 上面的结果说明，在sark对象被观察时，framework使用`runtime`动态创建了一个Sark类的子类`NSKVONotifying_Sark`  
 而且为了隐藏这个行为，NSKVONotifying_Sark重写了`- class`方法返回之前的类，就好像什么也没发生过一样  
 但是使用`object_getClass()`时就暴露了，因为这个方法返回的是这个对象的`isa`指针，**这个指针指向的一定是个这个对象的类对象**  
@@ -62,6 +66,7 @@ Sark
 -----
 
 然后来偷窥一下这个动态类实现的方法，这里请出一个NSObject的扩展`NSObject+DLIntrospection`，它封装了打印一个类的方法、属性、协议等常用调试方法，一目了然。  
+
 ```
 @interface NSObject (DLIntrospection)
 + (NSArray *)classes;
@@ -75,8 +80,10 @@ Sark
 
 + (NSString *)parentClassHierarchy;
 @end
-```
-然后继续在刚才的断点处调试：
+```   
+
+然后继续在刚才的断点处调试：   
+
 ```
 // breakpoint 1
 (lldb) po [object_getClass(sark) instanceMethods]
@@ -101,14 +108,11 @@ Sark
 - (id)name
 )
 ```
-首先就有个扎眼的`- .cxx_destruct`冒出来，这货是个啥？
+首先就有个扎眼的`- .cxx_destruct`冒出来，这货是个啥？详细的探究请参考我的[另一篇文章](http://blog.sunnyxx.com/2014/04/02/objc_dig_arc_dealloc/)。
 
-> ARC actually creates a -.cxx_destruct method to handle freeing instance variables. This method was originally created for calling C++ destructors automatically when an object was destroyed. The visible difference of this with ARC is that Objective-C instance variables are now deallocated after -dealloc in the root class has finished, not before. In most cases, this should make no difference.
+大概就是说arc下这个方法在所有`dealloc`调用完成后负责释放所有的变量，当然这个和kvo没啥关系了，回到正题。  
+从上面breakpoint2的打印可以看出，动态类重写了4个方法：   
 
-[reference from here](http://my.safaribooksonline.com/book/programming/objective-c/9780132908641/3dot-memory-management/ch03)
-
-大概就是说arc下这个方法在所有`dealloc`调用完成后负责释放所有的变量，当然这个和kvo没啥关系了，回到正题。
-从上面breakpoint2的打印可以看出，动态类重写了4个方法：
 1. `- setName:`最主要的重写方法，set值时调用通知函数
 2. `- class`隐藏自己必备啊，返回原来类的class
 3. `- dealloc`做清理犯罪现场工作
@@ -139,20 +143,3 @@ Sark
 ```
 没问题。
 
-##KVO深度探究
-![](http://ww4.sinaimg.cn/large/51530583gw1eeb3atvu0ij208z03uaa8.jpg)
-
-```
-nm -a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework/Foundation | grep KVO
-```
-
-// TODO:
-
-##KVO的硬伤
-###KVO坑爹的API
-// TODO:
-到现在还没有block版本的API？
-###KVO难于调试
-// TODO:
-###KVO的死循环
-// TODO:

@@ -1,4 +1,4 @@
-title: objc arc的秘密
+title: objc arc的简单探索
 date: 2014-03-15 19:02:59
 tags: objc的秘密
 ---
@@ -66,13 +66,3 @@ ARC随着iOS5问世，到现在iOS8都快出了，你还在手动写retain，rel
 > An Objective-C method returning a non-retainable pointer may be annotated with the objc_returns_inner_pointer attribute to indicate that it returns a handle to the internal data of an object, and that this reference will be invalidated if the object is destroyed. When such a message is sent to an object, the object’s lifetime will be extended until at least the earliest of:
 the last use of the returned pointer, or any pointer derived from it, in the calling function or
 the autorelease pool is restored to a previous state.
-
-##ARC的内存管理函数
-上面说，ARC区别于GC，是在我们的代码中插入内存管理的代码，那么这些代码究竟是什么？  
-使用Xcode查看汇编代码的方法，先调出：
-![](http://ww3.sinaimg.cn/large/51530583gw1eehmxl9gx9j205o01m0sm.jpg)
-然后在上边的栏中选择：
-![](http://ww1.sinaimg.cn/large/51530583gw1eehmwfezi3j205v0ccwf0.jpg)
-这样，源代码的汇编结果就能显示出来。
-
-// TODO:
